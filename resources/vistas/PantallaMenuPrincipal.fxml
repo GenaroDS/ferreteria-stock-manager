@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="284.0" prefWidth="292.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controladores.PantallaPrincipalController">
+
+    <Button fx:id="btnVolver" layoutX="119.0" layoutY="243.0" text="Volver" />
+    <Label layoutX="68.0" layoutY="27.0" style="-fx-font-size: 16px; -fx-text-fill: black;" text="Seleccione una tarea" />
+
+    <Button fx:id="btnVenta" layoutX="46.0" layoutY="144.0" prefWidth="200" text="Realizar Venta" />
+    <Button fx:id="btnConsultarStock" layoutX="46.0" layoutY="103.0" prefWidth="200" text="Consultar Stock" />
+    <Button fx:id="btnIngreso" layoutX="46.0" layoutY="63.0" prefWidth="200" text="Ingreso de Producto" />
+    <Button fx:id="btnBolsa" layoutX="46.0" layoutY="185.0" prefWidth="200" text="Armar/Desarmar Bolsa" />
+
+</AnchorPane>

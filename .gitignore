@@ -1,0 +1,39 @@
+# === Java compilados ===
+/out/
+*.class
+
+# === IntelliJ IDEA ===
+.idea/
+*.iml
+*.iws
+
+# === Eclipse ===
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+
+# === NetBeans ===
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# === VS Code ===
+.vscode/
+
+# === Archivos de sistema ===
+.DS_Store
+Thumbs.db
+
+# === Temporales y logs ===
+*.log
+*.tmp
+*.swp
+*.swo
+

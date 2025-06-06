@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controladores.PantallaIngresoProductoController">
+
+    <Label layoutX="95.0" layoutY="10.0" style="-fx-font-size: 16px;" text="Ingreso de Producto" />
+
+    <Label layoutX="20.0" layoutY="45.0" text="Nombre producto:" />
+    <TextField fx:id="campoProducto" layoutX="160.0" layoutY="40.0" prefHeight="27.0" prefWidth="176.0" />
+
+    <Label layoutX="20.0" layoutY="80.0" text="Unidad mínima:" />
+    <TextField fx:id="campoUnidadMinima" layoutX="160.0" layoutY="75.0" prefHeight="27.0" prefWidth="176.0" />
+
+    <Label layoutX="20.0" layoutY="115.0" text="Cantidad (unidad mínima):" />
+    <TextField fx:id="campoCantidadMinima" layoutX="199.0" layoutY="110.0" prefHeight="27.0" prefWidth="137.0" />
+
+    <Label layoutX="20.0" layoutY="150.0" text="Unidad de conversión:" />
+    <TextField fx:id="campoUnidadConversion" layoutX="160.0" layoutY="145.0" prefHeight="27.0" prefWidth="176.0" />
+
+    <Label layoutX="20.0" layoutY="185.0" text="Factor de conversión:" />
+    <Label layoutX="20.0" layoutY="185.0" text="Factor de conversión:" />
+    <TextField fx:id="campoFactor" layoutX="160.0" layoutY="180.0" prefHeight="27.0" prefWidth="50.0" />
+    <Label fx:id="labelFactorPreview" layoutX="220.0" layoutY="185.0" text="" />
+
+    <Label layoutX="20.0" layoutY="220.0" text="¿Es empaquetable?" />
+    <RadioButton fx:id="radioSi" layoutX="160.0" layoutY="219.0" text="Sí" />
+    <RadioButton fx:id="radioNo" layoutX="220.0" layoutY="219.0" selected="true" text="No" />
+
+    <Label layoutX="20.0" layoutY="255.0" text="Unidades por paquete:" />
+    <TextField fx:id="campoUnidadesPorPaquete" disable="true" layoutX="160.0" layoutY="250.0" prefHeight="27.0" prefWidth="176.0" />
+
+    <Button fx:id="btnGuardar" layoutX="107.0" layoutY="300.0" prefHeight="27.0" prefWidth="144.0" text="Guardar" />
+
+    <Button fx:id="btnVolver" layoutX="130.0" layoutY="349.0" prefWidth="100.0" text="Volver" />
+</AnchorPane>

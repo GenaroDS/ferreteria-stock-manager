@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="383.0" prefWidth="317.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controladores.PantallaConsultarStockController">
+
+    <Label fx:id="lblTitulo" layoutX="103.0" layoutY="14.0" style="-fx-font-size: 16px;" text="Consultar Stock" />
+
+    <ComboBox fx:id="comboProductos" layoutX="34.0" layoutY="50.0" prefWidth="250" promptText="Seleccionar producto" />
+
+    <Button fx:id="btnConsultar" layoutX="99.0" layoutY="90.0" prefWidth="120" text="Consultar" />
+
+    <TextArea fx:id="areaResultado" editable="false" focusTraversable="false" layoutX="34.0" layoutY="130.0" prefHeight="192.0" prefWidth="250.0" wrapText="true" />
+
+    <Button fx:id="btnVolver" layoutX="119.0" layoutY="336.0" prefWidth="80" text="Volver" />
+
+</AnchorPane>
