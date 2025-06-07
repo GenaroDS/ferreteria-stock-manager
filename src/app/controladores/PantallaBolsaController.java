@@ -3,6 +3,8 @@ package app.controladores;
 import app.modelo.AppData;
 import app.modelo.Producto;
 import app.modelo.UnidadDeConversion;
+import app.servicios.InventarioService;
+import app.servicios.ProductoService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,7 +22,9 @@ public class PantallaBolsaController {
 
     @FXML
     private void initialize() {
-        comboTipo.getItems().addAll(AppData.getDatos().getProductos());
+        AppData.getProductos().stream()
+                .filter(p -> p.getUnidadesAlternativas().stream().anyMatch(UnidadDeConversion::isPaquete))
+                .forEach(comboTipo.getItems()::add);
 
         comboTipo.setCellFactory(list -> new ListCell<>() {
             @Override
@@ -29,6 +33,7 @@ public class PantallaBolsaController {
                 setText(empty || item == null ? null : item.getNombre());
             }
         });
+
         comboTipo.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(Producto item, boolean empty) {
@@ -42,9 +47,10 @@ public class PantallaBolsaController {
         btnArmar.setOnAction(event -> {
             Producto p = comboTipo.getValue();
             if (p == null) return;
+            InventarioService inventarioService = new InventarioService();
             for (UnidadDeConversion unidad : p.getUnidadesAlternativas()) {
                 if (unidad.isPaquete()) {
-                    AppData.getDatos().armarPaquete(p, unidad.getUnidad(), 1);
+                    inventarioService.armarPaquete(p, unidad.getUnidad(), 1);
                 }
             }
             actualizarResumen();
@@ -53,9 +59,10 @@ public class PantallaBolsaController {
         btnDesarmar.setOnAction(event -> {
             Producto p = comboTipo.getValue();
             if (p == null) return;
+            InventarioService inventarioService = new InventarioService();
             for (UnidadDeConversion unidad : p.getUnidadesAlternativas()) {
                 if (unidad.isPaquete()) {
-                    AppData.getDatos().desarmarPaquete(p, unidad.getUnidad(), 1);
+                    inventarioService.desarmarPaquete(p, unidad.getUnidad(), 1);
                 }
             }
             actualizarResumen();
@@ -79,22 +86,7 @@ public class PantallaBolsaController {
             areaResumen.setText("");
             return;
         }
-        StringBuilder sb = new StringBuilder();
-        sb.append("Producto: ").append(p.getNombre()).append("\n");
-        sb.append("Unidad mínima: ").append(p.getUnidadMinima()).append("\n");
-
-        int stockUnidad = AppData.getDatos().consultarStock(p, p.getUnidadMinima());
-        sb.append("Unidades disponibles: ").append(stockUnidad).append("\n");
-
-        for (UnidadDeConversion unidad : p.getUnidadesAlternativas()) {
-            if (unidad.isPaquete()) {
-                int armables = stockUnidad / unidad.getFactorConversion();
-                int armadas = AppData.getDatos().consultarStock(p, unidad.getUnidad());
-                sb.append("Bolsas disponibles para armar: ").append(armables).append("\n");
-                sb.append("Bolsas armadas: ").append(armadas).append("\n");
-            }
-        }
-
-        areaResumen.setText(sb.toString());
+        ProductoService productoService = new ProductoService();
+        areaResumen.setText(productoService.generarResumenBolsa(p));
     }
 }

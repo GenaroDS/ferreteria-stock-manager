@@ -33,5 +33,5 @@
 
     <Button fx:id="btnGuardar" layoutX="107.0" layoutY="300.0" prefHeight="27.0" prefWidth="144.0" text="Guardar" />
 
-    <Button fx:id="btnVolver" layoutX="130.0" layoutY="349.0" prefWidth="100.0" text="Volver" />
+    <Button fx:id="btnVolver" layoutX="130.0" layoutY="349.0"prefWidth="60"  text="Volver" />
 </AnchorPane>

@@ -1,11 +1,13 @@
 package app.controladores;
 
+import app.modelo.AppData;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
+import javafx.application.Platform;
 
 
 public class PantallaPrincipalController {
@@ -19,6 +21,8 @@ public class PantallaPrincipalController {
 
 
     private void initialize() {
+        btnVolver.setOnAction(event -> Platform.exit());
+
         btnConsultarStock.setOnAction(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/PantallaConsultarStock.fxml"));
@@ -53,7 +57,7 @@ public class PantallaPrincipalController {
 
         btnIngreso.setOnAction(event -> {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/PantallaIngresoProducto.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/PantallaSeleccionIngreso.fxml"));
                 Parent root = loader.load();
                 Stage stage = (Stage) btnIngreso.getScene().getWindow();
                 stage.setScene(new Scene(root));

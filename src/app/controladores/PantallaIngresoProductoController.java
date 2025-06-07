@@ -2,6 +2,7 @@ package app.controladores;
 
 import app.modelo.AppData;
 import app.modelo.Producto;
+import app.servicios.ProductoService;
 import app.modelo.UnidadDeConversion;
 import app.modelo.Inventario;
 import javafx.fxml.FXML;
@@ -46,6 +47,7 @@ public class PantallaIngresoProductoController {
                 e.printStackTrace();
             }
         });
+
         btnGuardar.setOnAction(event -> {
             String nombre = campoProducto.getText();
             String unidadMinima = campoUnidadMinima.getText();
@@ -56,40 +58,41 @@ public class PantallaIngresoProductoController {
             String unidadesPorPaqueteStr = campoUnidadesPorPaquete.getText();
 
             if (nombre.isEmpty() || unidadMinima.isEmpty() || cantidadStr.isEmpty() ||
-                    unidadConv.isEmpty() || factorStr.isEmpty() || (esEmpaquetable && unidadesPorPaqueteStr.isEmpty())) {
+                    unidadConv.isEmpty() || (esEmpaquetable && unidadesPorPaqueteStr.isEmpty()) ||
+                    (!esEmpaquetable && factorStr.isEmpty())) {
                 mostrarAlerta("Todos los campos son obligatorios.");
                 return;
             }
 
             try {
-                int cantidadMinima = Integer.parseInt(cantidadStr);
-                int factor = Integer.parseInt(factorStr);
-                int unidadesPorPaquete = esEmpaquetable ? Integer.parseInt(unidadesPorPaqueteStr) : 0;
+                double cantidadMinima = parsearNumero(cantidadStr);
+                double factor = esEmpaquetable
+                        ? parsearNumero(unidadesPorPaqueteStr)
+                        : parsearNumero(factorStr);
 
-                int nuevoId = AppData.getDatos().getProductos().size() + 1;
-                Producto nuevo = new Producto(nuevoId, nombre, unidadMinima);
+                if (factor <= 0) {
+                    mostrarAlerta("El factor de conversión debe ser mayor a cero.");
+                    return;
+                }
 
-                UnidadDeConversion conversor = new UnidadDeConversion(
-                        AppData.getDatos().getProductos().size() + 1,
-                        nuevoId,
-                        unidadConv,
-                        factor,
-                        esEmpaquetable
-                );
-
-                nuevo.agregarUnidadDeConversion(conversor);
-                AppData.getDatos().getProductos().add(nuevo);
-
-                int nuevoInvId = AppData.getDatos().getInventario().size() + 1;
-                Inventario inv = new Inventario(nuevoInvId, nuevo, unidadMinima, cantidadMinima);
-                AppData.getDatos().getInventario().add(inv);
+                ProductoService productoService = new ProductoService();
+                productoService.crearProducto(nombre, unidadMinima, unidadConv, factor, esEmpaquetable, (int) cantidadMinima);
 
                 mostrarAlerta("Producto ingresado correctamente.");
                 limpiarCampos();
             } catch (NumberFormatException e) {
-                mostrarAlerta("Los campos de cantidad, factor y unidades por paquete deben ser numéricos.");
+                mostrarAlerta("Los campos de cantidad y factor deben ser numéricos.");
             }
         });
+
+
+
+
+    }
+
+    private double parsearNumero(String texto) throws NumberFormatException {
+        texto = texto.trim().replace(",", ".");
+        return Double.parseDouble(texto);
     }
 
     private void mostrarAlerta(String mensaje) {
@@ -99,6 +102,7 @@ public class PantallaIngresoProductoController {
         alerta.setContentText(mensaje);
         alerta.showAndWait();
     }
+
     private void actualizarVistaFactor() {
         String uMin = campoUnidadMinima.getText();
         String uConv = campoUnidadConversion.getText();

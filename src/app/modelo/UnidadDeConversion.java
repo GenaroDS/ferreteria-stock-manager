@@ -4,27 +4,33 @@ public class UnidadDeConversion {
     private int id;
     private int idProducto;
     private String unidad;
-    private int factorConversion;
+    private double factorConversion;
     private boolean esPaquete;
+    private boolean esUnidadMinima;
 
-    public UnidadDeConversion(int id, int idProducto, String unidad, int factorConversion, boolean esPaquete) {
+    public UnidadDeConversion(int id, int idProducto, String unidad, double factorConversion, boolean esPaquete, boolean esUnidadMinima) {
         this.id = id;
         this.idProducto = idProducto;
         this.unidad = unidad;
         this.factorConversion = factorConversion;
         this.esPaquete = esPaquete;
+        this.esUnidadMinima = esUnidadMinima;
     }
 
     public String getUnidad() {
         return unidad;
     }
 
-    public int getFactorConversion() {
+    public double getFactorConversion() {
         return factorConversion;
     }
 
     public boolean isPaquete() {
         return esPaquete;
+    }
+
+    public boolean isUnidadMinima() {
+        return esUnidadMinima;
     }
 
     public int getIdProducto() {

@@ -6,13 +6,11 @@ import java.util.List;
 public class Producto {
     private int id;
     private String nombre;
-    private String unidadMinima;
     private List<UnidadDeConversion> unidadesAlternativas;
 
-    public Producto(int id, String nombre, String unidadMinima) {
+    public Producto(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
-        this.unidadMinima = unidadMinima;
         this.unidadesAlternativas = new ArrayList<>();
     }
 
@@ -27,10 +25,18 @@ public class Producto {
         return null;
     }
 
-    public void mostrarInfo() {
-        System.out.println("Producto: " + nombre + " | Unidad mínima: " + unidadMinima);
+    public UnidadDeConversion getUnidadMinima() {
         for (UnidadDeConversion u : unidadesAlternativas) {
-            System.out.println(" - " + u.getUnidad() + ": factor " + u.getFactorConversion() + " | Es paquete: " + u.isPaquete());
+            if (u.isUnidadMinima()) return u;
+        }
+        return null;
+    }
+
+    public void mostrarInfo() {
+        System.out.println("Producto: " + nombre);
+        for (UnidadDeConversion u : unidadesAlternativas) {
+            String extra = u.isUnidadMinima() ? " (unidad mínima)" : "";
+            System.out.println(" - " + u.getUnidad() + ": factor " + u.getFactorConversion() + " | Es paquete: " + u.isPaquete() + extra);
         }
     }
 
@@ -40,10 +46,6 @@ public class Producto {
 
     public String getNombre() {
         return nombre;
-    }
-
-    public String getUnidadMinima() {
-        return unidadMinima;
     }
 
     public List<UnidadDeConversion> getUnidadesAlternativas() {

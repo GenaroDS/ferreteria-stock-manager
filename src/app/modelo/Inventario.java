@@ -4,9 +4,9 @@ public class Inventario {
     private int id;
     private Producto producto;
     private String unidad;
-    private int cantidad;
+    private double cantidad;
 
-    public Inventario(int id, Producto producto, String unidad, int cantidad) {
+    public Inventario(int id, Producto producto, String unidad, double cantidad) {
         this.id = id;
         this.producto = producto;
         this.unidad = unidad;
@@ -17,6 +17,13 @@ public class Inventario {
         return id;
     }
 
+    public double getCantidadEnUnidadMinima() {
+        UnidadDeConversion unidadActual = producto.getUnidad(unidad);
+        if (unidadActual == null) {
+            throw new IllegalStateException("Unidad no registrada");
+        }
+        return cantidad * unidadActual.getFactorConversion();
+    }
 
 
 
@@ -28,15 +35,15 @@ public class Inventario {
         return unidad;
     }
 
-    public int getCantidad() {
+    public double getCantidad() {
         return cantidad;
     }
 
-    public void modificarCantidad(int delta) {
+    public void modificarCantidad(double delta) {
         this.cantidad += delta;
     }
 
-    public void setCantidad(int cantidad) {
+    public void setCantidad(double cantidad) {
         this.cantidad = cantidad;
     }
 }

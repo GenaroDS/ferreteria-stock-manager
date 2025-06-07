@@ -13,6 +13,6 @@
 
     <TextArea fx:id="areaResultado" editable="false" focusTraversable="false" layoutX="34.0" layoutY="130.0" prefHeight="192.0" prefWidth="250.0" wrapText="true" />
 
-    <Button fx:id="btnVolver" layoutX="119.0" layoutY="336.0" prefWidth="80" text="Volver" />
+    <Button fx:id="btnVolver" layoutX="119.0" layoutY="336.0" prefWidth="60" text="Volver" />
 
 </AnchorPane>
