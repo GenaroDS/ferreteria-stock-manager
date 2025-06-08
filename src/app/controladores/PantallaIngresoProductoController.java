@@ -25,17 +25,42 @@ public class PantallaIngresoProductoController {
     @FXML private Button btnGuardar;
     @FXML private Label labelFactorPreview;
     @FXML private Button btnVolver;
+    @FXML private TextField campoNombrePaquete;
+    @FXML private RadioButton radioConvSi;
+    @FXML private RadioButton radioConvNo;
 
     @FXML
     private void initialize() {
         ToggleGroup grupo = new ToggleGroup();
+        ToggleGroup grupoConv = new ToggleGroup();
+        radioConvSi.setToggleGroup(grupoConv);
+        radioConvNo.setToggleGroup(grupoConv);
+
+        radioConvSi.setOnAction(event -> {
+            campoUnidadConversion.setDisable(false);
+            campoFactor.setDisable(false);
+            actualizarVistaFactor();
+        });
+
+        radioConvNo.setOnAction(event -> {
+            campoUnidadConversion.setDisable(true);
+            campoFactor.setDisable(true);
+            labelFactorPreview.setText("");
+        });
+
+        radioSi.setOnAction(event -> {
+            campoUnidadesPorPaquete.setDisable(false);
+            campoNombrePaquete.setDisable(false);
+        });
+
+        radioNo.setOnAction(event -> {
+            campoUnidadesPorPaquete.setDisable(true);
+            campoNombrePaquete.setDisable(true);
+        });
         radioSi.setToggleGroup(grupo);
         radioNo.setToggleGroup(grupo);
         campoUnidadMinima.textProperty().addListener((obs, oldVal, newVal) -> actualizarVistaFactor());
         campoUnidadConversion.textProperty().addListener((obs, oldVal, newVal) -> actualizarVistaFactor());
-
-        radioSi.setOnAction(event -> campoUnidadesPorPaquete.setDisable(false));
-        radioNo.setOnAction(event -> campoUnidadesPorPaquete.setDisable(true));
 
         btnVolver.setOnAction(event -> {
             try {
@@ -54,13 +79,24 @@ public class PantallaIngresoProductoController {
             String cantidadStr = campoCantidadMinima.getText();
             String unidadConv = campoUnidadConversion.getText();
             String factorStr = campoFactor.getText();
-            boolean esEmpaquetable = radioSi.isSelected();
             String unidadesPorPaqueteStr = campoUnidadesPorPaquete.getText();
+            String nombrePaquete = campoNombrePaquete.getText();
 
-            if (nombre.isEmpty() || unidadMinima.isEmpty() || cantidadStr.isEmpty() ||
-                    unidadConv.isEmpty() || (esEmpaquetable && unidadesPorPaqueteStr.isEmpty()) ||
-                    (!esEmpaquetable && factorStr.isEmpty())) {
-                mostrarAlerta("Todos los campos son obligatorios.");
+            boolean esEmpaquetable = radioSi.isSelected();
+            boolean tieneConversion = radioConvSi.isSelected();
+
+            if (nombre.isEmpty() || unidadMinima.isEmpty() || cantidadStr.isEmpty()) {
+                mostrarAlerta("Completá los datos básicos del producto.");
+                return;
+            }
+
+            if (tieneConversion && (unidadConv.isEmpty() || factorStr.isEmpty())) {
+                mostrarAlerta("Completá unidad y factor de conversión.");
+                return;
+            }
+
+            if (esEmpaquetable && (nombrePaquete.isEmpty() || unidadesPorPaqueteStr.isEmpty())) {
+                mostrarAlerta("Completá nombre del paquete y unidades por paquete.");
                 return;
             }
 
@@ -68,15 +104,17 @@ public class PantallaIngresoProductoController {
                 double cantidadMinima = parsearNumero(cantidadStr);
                 double factor = esEmpaquetable
                         ? parsearNumero(unidadesPorPaqueteStr)
-                        : parsearNumero(factorStr);
+                        : (tieneConversion ? parsearNumero(factorStr) : 0);
 
-                if (factor <= 0) {
-                    mostrarAlerta("El factor de conversión debe ser mayor a cero.");
-                    return;
+                if (tieneConversion || esEmpaquetable) {
+                    if (factor <= 0) {
+                        mostrarAlerta("El factor de conversión debe ser mayor a cero.");
+                        return;
+                    }
                 }
 
                 ProductoService productoService = new ProductoService();
-                productoService.crearProducto(nombre, unidadMinima, unidadConv, factor, esEmpaquetable, (int) cantidadMinima);
+                productoService.crearProducto(nombre, unidadMinima, unidadConv, factor, esEmpaquetable, tieneConversion, nombrePaquete, (int) cantidadMinima);
 
                 mostrarAlerta("Producto ingresado correctamente.");
                 limpiarCampos();
@@ -84,7 +122,6 @@ public class PantallaIngresoProductoController {
                 mostrarAlerta("Los campos de cantidad y factor deben ser numéricos.");
             }
         });
-
 
 
 

@@ -20,8 +20,9 @@ public class AppData {
         Producto clavos = new Producto(1, "Clavos");
 
         UnidadDeConversion unidadMinima = new UnidadDeConversion(0, 1, "Clavos", 1, false, true);
-        UnidadDeConversion gramos = new UnidadDeConversion(1, 1, "gramos", 40, false, false);
-        UnidadDeConversion bolsa = new UnidadDeConversion(2, 1, "bolsa", 100, true, false);
+        UnidadDeConversion gramos = new UnidadDeConversion(1, 1, "Gramos", 40, false, false);
+        UnidadDeConversion bolsa = new UnidadDeConversion(2, 1, "Bolsa", 100, true, false);
+
 
         clavos.agregarUnidadDeConversion(unidadMinima);
         clavos.agregarUnidadDeConversion(gramos);

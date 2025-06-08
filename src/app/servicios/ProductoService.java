@@ -12,16 +12,51 @@ public class ProductoService {
         Producto nuevo = new Producto(id, nombre);
 
         UnidadDeConversion unidadMin = new UnidadDeConversion(0, id, unidadMinima, 1, false, true);
-        UnidadDeConversion unidad = new UnidadDeConversion(1, id, unidadConv, factor, esPaquete, false);
-
         nuevo.agregarUnidadDeConversion(unidadMin);
-        nuevo.agregarUnidadDeConversion(unidad);
+
+        if (esPaquete) {
+            UnidadDeConversion unidadSuelta = new UnidadDeConversion(1, id, unidadConv, factor, false, false);
+            UnidadDeConversion unidadPaquete = new UnidadDeConversion(2, id, "Paquete", factor, true, false);
+
+            nuevo.agregarUnidadDeConversion(unidadSuelta);
+            nuevo.agregarUnidadDeConversion(unidadPaquete);
+        } else {
+            UnidadDeConversion unidadUnica = new UnidadDeConversion(1, id, unidadConv, factor, false, false);
+            nuevo.agregarUnidadDeConversion(unidadUnica);
+        }
 
         AppData.getProductos().add(nuevo);
 
         int idInv = AppData.getInventario().size() + 1;
         AppData.getInventario().add(new Inventario(idInv, nuevo, unidadMinima, cantidadMinima));
     }
+
+    public void crearProducto(String nombre, String unidadMinima, String unidadConv, double factor, boolean esPaquete, boolean tieneConversion, String nombrePaquete, int cantidadMinima) {
+        int id = AppData.getProductos().size() + 1;
+        Producto nuevo = new Producto(id, nombre);
+
+        UnidadDeConversion unidadMin = new UnidadDeConversion(0, id, unidadMinima, 1, false, true);
+        nuevo.agregarUnidadDeConversion(unidadMin);
+
+        int unidadId = 1;
+
+        if (tieneConversion) {
+            UnidadDeConversion unidadConvAlt = new UnidadDeConversion(unidadId++, id, unidadConv, factor, false, false);
+            nuevo.agregarUnidadDeConversion(unidadConvAlt);
+        }
+
+        if (esPaquete) {
+            UnidadDeConversion unidadPaquete = new UnidadDeConversion(unidadId, id, nombrePaquete, factor, true, false);
+            nuevo.agregarUnidadDeConversion(unidadPaquete);
+        }
+
+        AppData.getProductos().add(nuevo);
+
+        int idInv = AppData.getInventario().size() + 1;
+        AppData.getInventario().add(new Inventario(idInv, nuevo, unidadMinima, cantidadMinima));
+    }
+
+
 
     public int consultarStockTotal(Producto producto) {
         int total = 0;

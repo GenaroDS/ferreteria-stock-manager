@@ -82,12 +82,10 @@ public class PantallaProductoExistenteController {
                 }
 
                 if (unidad.isPaquete()) {
-                    double cantidadConvertida = cantidadIngresada * unidad.getFactorConversion();
-                    inventarioService.agregarStock(producto, cantidadConvertida, unidadMinima.getUnidad());
-                    mostrarAlerta("Se ingresaron " + formatearNumero(cantidadConvertida) + " " + unidadMinima.getUnidad() +
-                            " (" + formatearNumero(cantidadIngresada) + " " + unidad.getUnidad() + ").");
-
-                } else {
+                    inventarioService.agregarStock(producto, cantidadIngresada, unidad.getUnidad());
+                    mostrarAlerta("Se ingresaron " + formatearNumero(cantidadIngresada) + " " + unidad.getUnidad() + ".");
+                }
+                    else {
                     double cantidadConvertida = cantidadIngresada / unidad.getFactorConversion();
                     int cantidadEntera = (int) cantidadConvertida;
                     double sobrante = cantidadIngresada - (cantidadEntera * unidad.getFactorConversion());
@@ -109,6 +107,8 @@ public class PantallaProductoExistenteController {
             } catch (NumberFormatException e) {
                 mostrarAlerta("La cantidad debe ser numérica.");
             }
+
+
         });
 
         btnVolver.setOnAction(e -> cambiarPantalla("/vistas/PantallaSeleccionIngreso.fxml"));
