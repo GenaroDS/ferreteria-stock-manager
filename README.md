@@ -1,10 +1,43 @@
-# Ferreteria Stock Manager
+# Ferretería Stock Manager
 
-Sistema de gestión de stock para ferreterías con soporte para múltiples unidades de medida, armado/desarmado de paquetes y alertas automáticas de stock bajo.
+Este proyecto es una aplicación de escritorio desarrollada en Java utilizando JavaFX, destinada a la gestión de productos e inventario en una ferretería.
 
-## Tecnologías utilizadas
+## Funcionalidades principales
 
-- Java 
-- JavaFX 
-- JDBC
-- MySQL 
+- Alta de productos (unidad mínima, conversión y empaquetado).
+- Ingreso de stock por unidad o paquete.
+- Registro de ventas con descuento automático de stock en unidad mínima.
+- Alertas de stock bajo.
+- Visualización de productos ordenados alfabéticamente.
+
+## Estructura del proyecto
+
+- **Modelo**: contiene clases como `Producto`, `UnidadDeConversion` e `Inventario`.
+- **Controladores**: lógica de interacción para cada pantalla de JavaFX.
+- **Servicios**: lógica de negocio (ej. `InventarioService`, `ProductoService`).
+- **AppData**: estructura temporal en memoria que simula persistencia.
+
+## Requisitos
+
+- JDK 17 o superior.
+- JavaFX SDK.
+- IDE recomendado: IntelliJ IDEA o NetBeans.
+
+## Cómo ejecutar
+
+1. Clonar el repositorio:
+
+   ```bash
+   git clone https://github.com/GenaroDS/ferreteria-stock-manager/
+Abrir el proyecto en el IDE.
+
+Configurar JavaFX en el módulo (si el IDE no lo hace automáticamente).
+
+Ejecutar la clase Main.java.
+
+Estado del proyecto
+Se encuentra en fase de implementación (TP3).
+
+La persistencia se incorporará en la siguiente etapa (TP4).
+
+---
