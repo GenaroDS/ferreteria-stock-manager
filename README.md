@@ -6,9 +6,9 @@ Este proyecto es una aplicación de escritorio desarrollada en Java utilizando J
 
 - Alta de productos (unidad mínima, conversión y empaquetado).
 - Ingreso de stock por unidad o paquete.
+- Armado y desaramdo de paquetes
 - Registro de ventas con descuento automático de stock en unidad mínima.
-- Alertas de stock bajo.
-- Visualización de productos ordenados alfabéticamente.
+- Visualización de stock de productos.
 
 ## Estructura del proyecto
 
