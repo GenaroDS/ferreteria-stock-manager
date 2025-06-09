@@ -12,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.util.Comparator;
+
 public class PantallaBolsaController {
 
     @FXML private ComboBox<Producto> comboTipo;
@@ -24,7 +26,9 @@ public class PantallaBolsaController {
     private void initialize() {
         AppData.getProductos().stream()
                 .filter(p -> p.getUnidadesAlternativas().stream().anyMatch(UnidadDeConversion::isPaquete))
+                .sorted(Comparator.comparing(Producto::getNombre))
                 .forEach(comboTipo.getItems()::add);
+
 
         comboTipo.setCellFactory(list -> new ListCell<>() {
             @Override

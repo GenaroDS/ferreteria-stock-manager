@@ -11,6 +11,10 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 public class PantallaProductoExistenteController {
 
     @FXML private ComboBox<Producto> comboProductos;
@@ -24,7 +28,10 @@ public class PantallaProductoExistenteController {
     @FXML
     private void initialize() {
         comboUnidades.setDisable(true);
-        comboProductos.getItems().addAll(AppData.getProductos());
+
+        List<Producto> productosOrdenados = new ArrayList<>(AppData.getProductos());
+        productosOrdenados.sort(Comparator.comparing(Producto::getNombre));
+        comboProductos.getItems().addAll(productosOrdenados);
 
         comboProductos.setButtonCell(new ListCell<>() {
             @Override

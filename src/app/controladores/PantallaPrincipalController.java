@@ -67,5 +67,4 @@ public class PantallaPrincipalController {
         });
 
     }
-    // Acá podés agregar lógica más adelante para manejar los clicks
 }

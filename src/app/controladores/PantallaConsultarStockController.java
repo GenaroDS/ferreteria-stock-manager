@@ -13,6 +13,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 public class PantallaConsultarStockController {
 
     @FXML private ComboBox<Producto> comboProductos;
@@ -23,7 +27,9 @@ public class PantallaConsultarStockController {
     @FXML
     private void initialize() {
         if (!AppData.getProductos().isEmpty()) {
-            comboProductos.getItems().addAll(AppData.getProductos());
+            List<Producto> productosOrdenados = new ArrayList<>(AppData.getProductos());
+            productosOrdenados.sort(Comparator.comparing(Producto::getNombre));
+            comboProductos.getItems().addAll(productosOrdenados);
         } else {
             comboProductos.setPromptText("Sin productos cargados");
             comboProductos.setDisable(true);
