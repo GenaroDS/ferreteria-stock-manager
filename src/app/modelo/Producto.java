@@ -7,11 +7,13 @@ public class Producto {
     private int id;
     private String nombre;
     private List<UnidadDeConversion> unidadesAlternativas;
+    private double stockMinimoUnidadMinima;
 
-    public Producto(int id, String nombre) {
+    public Producto(int id, String nombre, int stockMinimoUnidadMinima) {
         this.id = id;
         this.nombre = nombre;
         this.unidadesAlternativas = new ArrayList<>();
+        this.stockMinimoUnidadMinima = stockMinimoUnidadMinima;
     }
 
     public void agregarUnidadDeConversion(UnidadDeConversion unidad) {
@@ -23,6 +25,14 @@ public class Producto {
             if (u.getUnidad().equals(nombreUnidad)) return u;
         }
         return null;
+    }
+
+    public double getStockMinimoUnidadMinima() {
+        return stockMinimoUnidadMinima;
+    }
+
+    public void setStockMinimoUnidadMinima(double stockMinimoUnidadMinima) {
+        this.stockMinimoUnidadMinima = stockMinimoUnidadMinima;
     }
 
     public UnidadDeConversion getUnidadMinima() {

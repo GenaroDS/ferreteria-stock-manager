@@ -17,9 +17,10 @@ public class PantallaPrincipalController {
     @FXML private Button btnConsultarStock;
     @FXML private Button btnIngreso;
     @FXML private Button btnBolsa;
+    @FXML private Button btnHistorialVentas;
+
+
     @FXML
-
-
     private void initialize() {
         btnVolver.setOnAction(event -> Platform.exit());
 
@@ -60,6 +61,17 @@ public class PantallaPrincipalController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/PantallaSeleccionIngreso.fxml"));
                 Parent root = loader.load();
                 Stage stage = (Stage) btnIngreso.getScene().getWindow();
+                stage.setScene(new Scene(root));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        btnHistorialVentas.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/PantallaHistorialVentas.fxml"));
+                Parent root = loader.load();
+                Stage stage = (Stage) btnHistorialVentas.getScene().getWindow();
                 stage.setScene(new Scene(root));
             } catch (Exception e) {
                 e.printStackTrace();

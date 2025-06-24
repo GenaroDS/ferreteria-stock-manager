@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="442.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controladores.PantallaIngresoProductoController">
+<AnchorPane prefHeight="475.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controladores.PantallaIngresoProductoController">
 
     <Label layoutX="95.0" layoutY="10.0" style="-fx-font-size: 16px;" text="Ingreso de Producto" />
 
@@ -13,29 +13,35 @@
     <Label layoutX="20.0" layoutY="80.0" text="Unidad mínima:" />
     <TextField fx:id="campoUnidadMinima" layoutX="160.0" layoutY="75.0" prefHeight="27.0" prefWidth="176.0" />
 
-    <Label layoutX="20.0" layoutY="114.0" text="Cantidad:" />
-    <TextField fx:id="campoCantidadMinima" layoutX="160.0" layoutY="111.0" prefHeight="27.0" prefWidth="176.0" />
-    <Label layoutX="20.0" layoutY="145.0" text="¿Tiene unidad de conversión?" />
-    <RadioButton fx:id="radioConvSi" layoutX="200.0" layoutY="144.0" selected="true" text="Sí" />
-    <RadioButton fx:id="radioConvNo" layoutX="260.0" layoutY="144.0" text="No" />
-    <Label layoutX="20.0" layoutY="177.0" text="Unidad de conversión:" />
-    <TextField fx:id="campoUnidadConversion" layoutX="160.0" layoutY="172.0" prefHeight="27.0" prefWidth="176.0" />
+    <Label layoutX="20.0" layoutY="115.0" text="Cantidad:" />
+    <TextField fx:id="campoCantidadMinima" layoutX="160.0" layoutY="112.0" prefHeight="27.0" prefWidth="176.0" />
+
+    <Label layoutX="20.0" layoutY="152.0" text="Stock mínimo de alerta:" />
+    <TextField fx:id="campoStockMinimo" layoutX="208.0" layoutY="149.0" prefHeight="27.0" prefWidth="128.0" />
 
 
-    <Label layoutX="20.0" layoutY="213.0" text="Factor de conversión:" />
-    <TextField fx:id="campoFactor" layoutX="160.0" layoutY="208.0" prefHeight="27.0" prefWidth="50.0" />
+
+    <Label layoutX="20.0" layoutY="186.0" text="¿Tiene unidad de conversión?" />
+    <RadioButton fx:id="radioConvSi" layoutX="200.0" layoutY="185.0" selected="true" text="Sí" />
+    <RadioButton fx:id="radioConvNo" layoutX="260.0" layoutY="185.0" text="No" />
+    <Label layoutX="20.0" layoutY="218.0" text="Unidad de conversión:" />
+    <TextField fx:id="campoUnidadConversion" layoutX="160.0" layoutY="213.0" prefHeight="27.0" prefWidth="176.0" />
+
+
+    <Label layoutX="20.0" layoutY="254.0" text="Factor de conversión:" />
+    <TextField fx:id="campoFactor" layoutX="160.0" layoutY="249.0" prefHeight="27.0" prefWidth="50.0" />
     <Label fx:id="labelFactorPreview" layoutX="220.0" layoutY="211.0" text="" />
 
-    <Label layoutX="20.0" layoutY="247.0" text="¿Es empaquetable?" />
-    <RadioButton fx:id="radioSi" layoutX="200.0" layoutY="246.0" text="Sí" />
-    <RadioButton fx:id="radioNo" layoutX="260.0" layoutY="246.0" selected="true" text="No" />
-    <Label layoutX="16.0" layoutY="317.0" text="Unidades por paquete:" />
-    <Label layoutX="16.0" layoutY="281.0" text="Nombre del paquete:" />
+    <Label layoutX="20.0" layoutY="288.0" text="¿Es empaquetable?" />
+    <RadioButton fx:id="radioSi" layoutX="200.0" layoutY="287.0" text="Sí" />
+    <RadioButton fx:id="radioNo" layoutX="260.0" layoutY="287.0" selected="true" text="No" />
+    <Label layoutX="16.0" layoutY="358.0" text="Unidades por paquete:" />
+    <Label layoutX="16.0" layoutY="322.0" text="Nombre del paquete:" />
 
-    <TextField fx:id="campoUnidadesPorPaquete" disable="true" layoutX="160.0" layoutY="314.0" prefHeight="27.0" prefWidth="176.0" />
-    <TextField fx:id="campoNombrePaquete" disable="true" layoutX="160.0" layoutY="277.0" prefHeight="27.0" prefWidth="176.0" />
+    <TextField fx:id="campoUnidadesPorPaquete" disable="true" layoutX="160.0" layoutY="355.0" prefHeight="27.0" prefWidth="176.0" />
+    <TextField fx:id="campoNombrePaquete" disable="true" layoutX="160.0" layoutY="318.0" prefHeight="27.0" prefWidth="176.0" />
 
-    <Button fx:id="btnGuardar" layoutX="108.0" layoutY="356.0" prefHeight="27.0" prefWidth="144.0" text="Guardar" />
+    <Button fx:id="btnGuardar" layoutX="108.0" layoutY="397.0" prefHeight="27.0" prefWidth="144.0" text="Guardar" />
 
-    <Button fx:id="btnVolver" layoutX="148.0" layoutY="393.0" prefWidth="60" text="Volver" />
+    <Button fx:id="btnVolver" layoutX="148.0" layoutY="434.0" prefWidth="60" text="Volver" />
 </AnchorPane>

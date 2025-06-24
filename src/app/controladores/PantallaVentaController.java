@@ -1,4 +1,5 @@
 package app.controladores;
+import app.modelo.Venta;
 import app.servicios.InventarioService;
 import app.modelo.AppData;
 import app.modelo.Producto;
@@ -114,8 +115,36 @@ public class PantallaVentaController {
 
                     String unidadMin = unidadMinima.getUnidad();
 
+
+                    if (cantidadEntera == 0) {
+                        mostrarAlerta("No se puede realizar la venta porque la cantidad ingresada (" +
+                                formatearNumero(cantidadIngresada) + " " + unidad.getUnidad() +
+                                ") no alcanza al mínimo necesario (" + formatearNumero(unidad.getFactorConversion()) +
+                                " " + unidad.getUnidad() + ") para descontar al menos 1 " + unidadMin + ".");
+                        return;
+                    }
+
+
+
                     boolean exito = inventarioService.descontarStock(producto, cantidadEntera, unidadMin);
                     if (exito) {
+                        // Registrar la venta
+                        double cantidadRealVendida = cantidadEntera * unidad.getFactorConversion();
+
+                        Venta venta = new Venta(
+                                AppData.getVentas().size() + 1,
+                                producto,
+                                unidadSeleccionada,
+                                cantidadRealVendida,
+                                java.time.LocalDateTime.now()
+                        );
+                        AppData.getVentas().add(venta);
+
+
+                        double stockPostVenta = inventarioService.consultarStock(producto, producto.getUnidadMinima().getUnidad());
+                        if (stockPostVenta < producto.getStockMinimoUnidadMinima()) {
+                            mostrarWarningStockBajo(producto, stockPostVenta);
+                        }
                         if (sobrante > 0) {
                             mostrarAlerta("Se vendieron " + cantidadEntera + " " + unidadMin +
                                     " porque el valor ingresado (" + formatearNumero(cantidadIngresada) + " " + unidad.getUnidad() +
@@ -137,6 +166,17 @@ public class PantallaVentaController {
         });
 
 
+    }
+
+    private void mostrarWarningStockBajo(Producto producto, double stockActual) {
+        Alert alerta = new Alert(Alert.AlertType.WARNING);
+        alerta.setTitle("Stock Bajo");
+        alerta.setHeaderText("Stock bajo detectado.");
+        alerta.setContentText("El producto \"" + producto.getNombre() +
+                "\" tiene un stock de " + formatearNumero(stockActual) +
+                " unidades, por debajo del mínimo configurado de " +
+                formatearNumero(producto.getStockMinimoUnidadMinima()) );
+        alerta.showAndWait();
     }
 
     private void mostrarAlerta(String mensaje) {

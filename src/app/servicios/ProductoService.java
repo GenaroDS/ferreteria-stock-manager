@@ -7,9 +7,9 @@ import app.modelo.Inventario;
 
 public class ProductoService {
 
-    public void crearProducto(String nombre, String unidadMinima, String unidadConv, double factor, boolean esPaquete, int cantidadMinima) {
+    public void crearProducto(String nombre,int stockUnidadMinima ,String unidadMinima, String unidadConv, double factor, boolean esPaquete, int cantidadMinima) {
         int id = AppData.getProductos().size() + 1;
-        Producto nuevo = new Producto(id, nombre);
+        Producto nuevo = new Producto(id, nombre, stockUnidadMinima);
 
         UnidadDeConversion unidadMin = new UnidadDeConversion(0, id, unidadMinima, 1, false, true);
         nuevo.agregarUnidadDeConversion(unidadMin);
@@ -31,9 +31,9 @@ public class ProductoService {
         AppData.getInventario().add(new Inventario(idInv, nuevo, unidadMinima, cantidadMinima));
     }
 
-    public void crearProducto(String nombre, String unidadMinima, String unidadConv, double factor, boolean esPaquete, boolean tieneConversion, String nombrePaquete, int cantidadMinima) {
+    public void crearProducto(String nombre, int stockUnidadMinima, String unidadMinima, String unidadConv, double factor, boolean esPaquete, boolean tieneConversion, String nombrePaquete, int cantidadMinima) {
         int id = AppData.getProductos().size() + 1;
-        Producto nuevo = new Producto(id, nombre);
+        Producto nuevo = new Producto(id, nombre, stockUnidadMinima);
 
         UnidadDeConversion unidadMin = new UnidadDeConversion(0, id, unidadMinima, 1, false, true);
         nuevo.agregarUnidadDeConversion(unidadMin);

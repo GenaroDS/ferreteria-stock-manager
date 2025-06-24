@@ -5,6 +5,8 @@ import java.util.List;
 
 public class AppData {
 
+
+    private static final List<Venta> ventas = new ArrayList<>();
     private static final List<Producto> productos = new ArrayList<>();
     private static final List<Inventario> inventario = new ArrayList<>();
 
@@ -16,8 +18,13 @@ public class AppData {
         return inventario;
     }
 
+
+    public static List<Venta> getVentas() {
+        return ventas;
+    }
+
     public static void inicializarDatos() {
-        Producto clavos = new Producto(1, "Clavos");
+        Producto clavos = new Producto(1, "Clavos", 10);
 
         UnidadDeConversion unidadMinima = new UnidadDeConversion(0, 1, "Clavos", 1, false, true);
         UnidadDeConversion gramos = new UnidadDeConversion(1, 1, "Gramos", 40, false, false);
@@ -33,3 +40,4 @@ public class AppData {
         inventario.add(new Inventario(1, clavos, "Clavos", 2500));
     }
 }
+

@@ -28,6 +28,8 @@ public class PantallaIngresoProductoController {
     @FXML private TextField campoNombrePaquete;
     @FXML private RadioButton radioConvSi;
     @FXML private RadioButton radioConvNo;
+    @FXML private TextField campoStockMinimo;
+
 
     @FXML
     private void initialize() {
@@ -81,12 +83,19 @@ public class PantallaIngresoProductoController {
             String factorStr = campoFactor.getText();
             String unidadesPorPaqueteStr = campoUnidadesPorPaquete.getText();
             String nombrePaquete = campoNombrePaquete.getText();
+            String stockMinimoStr = campoStockMinimo.getText();
+
 
             boolean esEmpaquetable = radioSi.isSelected();
             boolean tieneConversion = radioConvSi.isSelected();
 
             if (nombre.isEmpty() || unidadMinima.isEmpty() || cantidadStr.isEmpty()) {
                 mostrarAlerta("Completá los datos básicos del producto.");
+                return;
+            }
+
+            if (stockMinimoStr.isEmpty()) {
+                mostrarAlerta("Completá el stock mínimo de alerta.");
                 return;
             }
 
@@ -100,8 +109,18 @@ public class PantallaIngresoProductoController {
                 return;
             }
 
+
+
             try {
+
                 double cantidadMinima = parsearNumero(cantidadStr);
+                int stockMinimo = Integer.parseInt(stockMinimoStr);
+
+                if (stockMinimo >= cantidadMinima) {
+                    mostrarAlerta("El stock mínimo debe ser menor a la cantidad ingresada.");
+                    return;
+                }
+
                 double factor = esEmpaquetable
                         ? parsearNumero(unidadesPorPaqueteStr)
                         : (tieneConversion ? parsearNumero(factorStr) : 0);
@@ -114,7 +133,9 @@ public class PantallaIngresoProductoController {
                 }
 
                 ProductoService productoService = new ProductoService();
-                productoService.crearProducto(nombre, unidadMinima, unidadConv, factor, esEmpaquetable, tieneConversion, nombrePaquete, (int) cantidadMinima);
+
+
+                productoService.crearProducto(nombre, stockMinimo, unidadMinima, unidadConv, factor, esEmpaquetable, tieneConversion, nombrePaquete, (int) cantidadMinima);
 
                 mostrarAlerta("Producto ingresado correctamente.");
                 limpiarCampos();
@@ -160,5 +181,6 @@ public class PantallaIngresoProductoController {
         radioSi.setSelected(false);
         radioNo.setSelected(true);
         campoUnidadesPorPaquete.setDisable(true);
+        campoStockMinimo.clear();
     }
 }

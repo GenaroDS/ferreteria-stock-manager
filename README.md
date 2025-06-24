@@ -35,9 +35,4 @@ Configurar JavaFX en el módulo (si el IDE no lo hace automáticamente).
 
 Ejecutar la clase Main.java.
 
-Estado del proyecto
-Se encuentra en fase de implementación (TP3).
-
-La persistencia se incorporará en la siguiente etapa (TP4).
-
 ---

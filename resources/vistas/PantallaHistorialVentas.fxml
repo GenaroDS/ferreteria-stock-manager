@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="app.controladores.PantallaHistorialVentasController">
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true" prefHeight="200">
+            <TableView fx:id="tablaVentas" prefHeight="400">
+                <columns>
+                    <TableColumn fx:id="colFecha" text="Fecha y Hora" prefWidth="110"/>
+                    <TableColumn fx:id="colProducto" text="Producto" prefWidth="100"/>
+                    <TableColumn fx:id="colUnidad" text="Unidad" prefWidth="100"/>
+                    <TableColumn fx:id="colCantidad" text="Cantidad" prefWidth="100"/>
+                    <TableColumn fx:id="colCantidadMinima" text="Cant. en Unidad Mín." prefWidth="150"/>
+                </columns>
+            </TableView>
+        </ScrollPane>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER" spacing="10">
+            <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+            <Button fx:id="btnVolver" text="Volver"/>
+        </HBox>
+    </bottom>
+</BorderPane>
+

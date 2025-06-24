@@ -3,14 +3,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="284.0" prefWidth="292.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controladores.PantallaPrincipalController">
+<AnchorPane prefHeight="315.0" prefWidth="292.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controladores.PantallaPrincipalController">
 
-    <Button fx:id="btnVolver" layoutX="116.0" layoutY="233.0" prefWidth="60" text="Salir" />
+    <Button fx:id="btnVolver" layoutX="116.0" layoutY="264.0" prefWidth="60" text="Salir" />
     <Label layoutX="72.0" layoutY="18.0" style="-fx-font-size: 16px; -fx-text-fill: black;" text="Seleccione una tarea" />
 
     <Button fx:id="btnVenta" layoutX="46.0" layoutY="140.0" prefWidth="200" text="Realizar Venta" />
     <Button fx:id="btnConsultarStock" layoutX="46.0" layoutY="99.0" prefWidth="200" text="Consultar Stock" />
     <Button fx:id="btnIngreso" layoutX="46.0" layoutY="59.0" prefWidth="200" text="Ingreso de Producto" />
     <Button fx:id="btnBolsa" layoutX="46.0" layoutY="181.0" prefWidth="200" text="Armar/Desarmar Paquete" />
-
+    <Button fx:id="btnHistorialVentas" layoutX="46.0" layoutY="223.0" prefWidth="200" text="Historial de Ventas" />
 </AnchorPane>
