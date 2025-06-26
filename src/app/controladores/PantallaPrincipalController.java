@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.application.Platform;
 
-
 public class PantallaPrincipalController {
 
     @FXML private Button btnVolver;
@@ -18,12 +17,13 @@ public class PantallaPrincipalController {
     @FXML private Button btnIngreso;
     @FXML private Button btnBolsa;
     @FXML private Button btnHistorialVentas;
-
-
+    @FXML private Button btnModifcarAlertas;
     @FXML
     private void initialize() {
+        // Cierra la aplicación
         btnVolver.setOnAction(event -> Platform.exit());
 
+        // Ir a pantalla de consulta de stock
         btnConsultarStock.setOnAction(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/PantallaConsultarStock.fxml"));
@@ -34,6 +34,8 @@ public class PantallaPrincipalController {
                 e.printStackTrace();
             }
         });
+
+        // Ir a pantalla de armar/desarmar paquete
         btnBolsa.setOnAction(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/PantallaBolsa.fxml"));
@@ -45,6 +47,7 @@ public class PantallaPrincipalController {
             }
         });
 
+        // Ir a pantalla de ventas
         btnVenta.setOnAction(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/PantallaVenta.fxml"));
@@ -56,6 +59,18 @@ public class PantallaPrincipalController {
             }
         });
 
+        btnModifcarAlertas.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/ModificarAlertas.fxml"));
+                Parent root = loader.load();
+                Stage stage = (Stage) btnVenta.getScene().getWindow();
+                stage.setScene(new Scene(root));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        // Ir a pantalla de ingreso de productos
         btnIngreso.setOnAction(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/PantallaSeleccionIngreso.fxml"));
@@ -67,6 +82,7 @@ public class PantallaPrincipalController {
             }
         });
 
+        // Ir a pantalla de historial de ventas
         btnHistorialVentas.setOnAction(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/PantallaHistorialVentas.fxml"));
@@ -77,6 +93,5 @@ public class PantallaPrincipalController {
                 e.printStackTrace();
             }
         });
-
     }
 }

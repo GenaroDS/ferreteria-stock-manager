@@ -30,40 +30,48 @@ public class PantallaIngresoProductoController {
     @FXML private RadioButton radioConvNo;
     @FXML private TextField campoStockMinimo;
 
-
     @FXML
     private void initialize() {
+        // Agrupar radio buttons
         ToggleGroup grupo = new ToggleGroup();
         ToggleGroup grupoConv = new ToggleGroup();
         radioConvSi.setToggleGroup(grupoConv);
         radioConvNo.setToggleGroup(grupoConv);
 
+        // Habilitar campos de conversión si se selecciona "Sí"
         radioConvSi.setOnAction(event -> {
             campoUnidadConversion.setDisable(false);
             campoFactor.setDisable(false);
             actualizarVistaFactor();
         });
 
+        // Deshabilitar campos de conversión si se selecciona "No"
         radioConvNo.setOnAction(event -> {
             campoUnidadConversion.setDisable(true);
             campoFactor.setDisable(true);
             labelFactorPreview.setText("");
         });
 
+        // Habilitar campos de paquete si se selecciona "Sí"
         radioSi.setOnAction(event -> {
             campoUnidadesPorPaquete.setDisable(false);
             campoNombrePaquete.setDisable(false);
         });
 
+        // Deshabilitar campos de paquete si se selecciona "No"
         radioNo.setOnAction(event -> {
             campoUnidadesPorPaquete.setDisable(true);
             campoNombrePaquete.setDisable(true);
         });
+
         radioSi.setToggleGroup(grupo);
         radioNo.setToggleGroup(grupo);
+
+        // Actualizar vista previa del factor de conversión cuando cambian los textos
         campoUnidadMinima.textProperty().addListener((obs, oldVal, newVal) -> actualizarVistaFactor());
         campoUnidadConversion.textProperty().addListener((obs, oldVal, newVal) -> actualizarVistaFactor());
 
+        // Acción del botón "Volver"
         btnVolver.setOnAction(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/PantallaMenuPrincipal.fxml"));
@@ -75,6 +83,7 @@ public class PantallaIngresoProductoController {
             }
         });
 
+        // Acción del botón "Guardar"
         btnGuardar.setOnAction(event -> {
             String nombre = campoProducto.getText();
             String unidadMinima = campoUnidadMinima.getText();
@@ -85,10 +94,10 @@ public class PantallaIngresoProductoController {
             String nombrePaquete = campoNombrePaquete.getText();
             String stockMinimoStr = campoStockMinimo.getText();
 
-
             boolean esEmpaquetable = radioSi.isSelected();
             boolean tieneConversion = radioConvSi.isSelected();
 
+            // Validación de campos obligatorios
             if (nombre.isEmpty() || unidadMinima.isEmpty() || cantidadStr.isEmpty()) {
                 mostrarAlerta("Completá los datos básicos del producto.");
                 return;
@@ -109,10 +118,7 @@ public class PantallaIngresoProductoController {
                 return;
             }
 
-
-
             try {
-
                 double cantidadMinima = parsearNumero(cantidadStr);
                 int stockMinimo = Integer.parseInt(stockMinimoStr);
 
@@ -125,16 +131,12 @@ public class PantallaIngresoProductoController {
                         ? parsearNumero(unidadesPorPaqueteStr)
                         : (tieneConversion ? parsearNumero(factorStr) : 0);
 
-                if (tieneConversion || esEmpaquetable) {
-                    if (factor <= 0) {
-                        mostrarAlerta("El factor de conversión debe ser mayor a cero.");
-                        return;
-                    }
+                if ((tieneConversion || esEmpaquetable) && factor <= 0) {
+                    mostrarAlerta("El factor de conversión debe ser mayor a cero.");
+                    return;
                 }
 
                 ProductoService productoService = new ProductoService();
-
-
                 productoService.crearProducto(nombre, stockMinimo, unidadMinima, unidadConv, factor, esEmpaquetable, tieneConversion, nombrePaquete, (int) cantidadMinima);
 
                 mostrarAlerta("Producto ingresado correctamente.");
@@ -143,16 +145,15 @@ public class PantallaIngresoProductoController {
                 mostrarAlerta("Los campos de cantidad y factor deben ser numéricos.");
             }
         });
-
-
-
     }
 
+    // Parsea un número desde texto (permite "," como decimal)
     private double parsearNumero(String texto) throws NumberFormatException {
         texto = texto.trim().replace(",", ".");
         return Double.parseDouble(texto);
     }
 
+    // Muestra una alerta informativa
     private void mostrarAlerta(String mensaje) {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle("Aviso");
@@ -161,16 +162,18 @@ public class PantallaIngresoProductoController {
         alerta.showAndWait();
     }
 
+    // Muestra vista previa de cómo quedaría el factor de conversión
     private void actualizarVistaFactor() {
         String uMin = campoUnidadMinima.getText();
         String uConv = campoUnidadConversion.getText();
         if (!uMin.isEmpty() && !uConv.isEmpty()) {
-            labelFactorPreview.setText( uConv + " x " + uMin);
+            labelFactorPreview.setText(uConv + " x " + uMin);
         } else {
             labelFactorPreview.setText("");
         }
     }
 
+    // Limpia los campos del formulario
     private void limpiarCampos() {
         campoProducto.clear();
         campoUnidadMinima.clear();

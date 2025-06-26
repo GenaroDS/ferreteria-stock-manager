@@ -9,6 +9,7 @@ public class Venta {
     private double cantidad;
     private LocalDateTime fechaHora;
 
+    // Constructor con todos los campos
     public Venta(int id, Producto producto, String unidad, double cantidad, LocalDateTime fechaHora) {
         this.id = id;
         this.producto = producto;
@@ -17,6 +18,7 @@ public class Venta {
         this.fechaHora = fechaHora;
     }
 
+    // Devuelve la cantidad convertida a unidades mínimas
     public double getCantidadEnUnidadMinima() {
         UnidadDeConversion u = producto.getUnidad(unidad);
         return cantidad / u.getFactorConversion();
@@ -33,6 +35,7 @@ public class Venta {
     public double getCantidad() {
         return cantidad;
     }
+
     public Producto getProducto() {
         return producto;
     }

@@ -7,7 +7,8 @@ import app.modelo.Inventario;
 
 public class ProductoService {
 
-    public void crearProducto(String nombre,int stockUnidadMinima ,String unidadMinima, String unidadConv, double factor, boolean esPaquete, int cantidadMinima) {
+    // Crea un producto empaquetado con unidad mínima, unidad suelta y paquete
+    public void crearProducto(String nombre, int stockUnidadMinima, String unidadMinima, String unidadConv, double factor, boolean esPaquete, int cantidadMinima) {
         int id = AppData.getProductos().size() + 1;
         Producto nuevo = new Producto(id, nombre, stockUnidadMinima);
 
@@ -17,7 +18,6 @@ public class ProductoService {
         if (esPaquete) {
             UnidadDeConversion unidadSuelta = new UnidadDeConversion(1, id, unidadConv, factor, false, false);
             UnidadDeConversion unidadPaquete = new UnidadDeConversion(2, id, "Paquete", factor, true, false);
-
             nuevo.agregarUnidadDeConversion(unidadSuelta);
             nuevo.agregarUnidadDeConversion(unidadPaquete);
         } else {
@@ -31,6 +31,7 @@ public class ProductoService {
         AppData.getInventario().add(new Inventario(idInv, nuevo, unidadMinima, cantidadMinima));
     }
 
+    // Crea un producto con más flexibilidad: unidad mínima, conversión opcional y paquete opcional
     public void crearProducto(String nombre, int stockUnidadMinima, String unidadMinima, String unidadConv, double factor, boolean esPaquete, boolean tieneConversion, String nombrePaquete, int cantidadMinima) {
         int id = AppData.getProductos().size() + 1;
         Producto nuevo = new Producto(id, nombre, stockUnidadMinima);
@@ -56,8 +57,7 @@ public class ProductoService {
         AppData.getInventario().add(new Inventario(idInv, nuevo, unidadMinima, cantidadMinima));
     }
 
-
-
+    // Devuelve el stock total de un producto en unidades mínimas
     public int consultarStockTotal(Producto producto) {
         int total = 0;
         for (Inventario inv : AppData.getInventario()) {
@@ -71,7 +71,7 @@ public class ProductoService {
         return total;
     }
 
-
+    // Genera resumen de paquete para pantalla de bolsa
     public String generarResumenBolsa(Producto producto) {
         InventarioService inventarioService = new InventarioService();
         StringBuilder sb = new StringBuilder();
@@ -95,10 +95,12 @@ public class ProductoService {
         return sb.toString();
     }
 
+    // Consulta stock disponible en unidad mínima
     public double consultarStockDisponibleUnidad(Producto producto) {
         return new InventarioService().consultarStock(producto, producto.getUnidadMinima().getUnidad());
     }
 
+    // Genera un informe de stock para la pantalla de consulta
     public String generarInformeStock(Producto producto) {
         InventarioService inventarioService = new InventarioService();
         StringBuilder resultado = new StringBuilder();
@@ -115,6 +117,7 @@ public class ProductoService {
         resultado.append("Stock total (en ").append(nombreUnidadMinima).append("): ")
                 .append(formatearNumero(stockTotalMinima)).append("\n");
 
+        // Mostrar stock en unidades convertidas (no paquetes)
         for (UnidadDeConversion unidad : producto.getUnidadesAlternativas()) {
             if (!unidad.isUnidadMinima() && !unidad.isPaquete()) {
                 double totalConvertido = stockTotalMinima * unidad.getFactorConversion();
@@ -123,6 +126,7 @@ public class ProductoService {
             }
         }
 
+        // Mostrar detalle de paquetes (si los hay)
         for (UnidadDeConversion unidad : producto.getUnidadesAlternativas()) {
             if (unidad.isPaquete()) {
                 String nombreUnidad = unidad.getUnidad();
@@ -140,9 +144,7 @@ public class ProductoService {
         return resultado.toString();
     }
 
-
-
-
+    // Formatea el número (entero si es exacto, 2 decimales si no)
     private String formatearNumero(double numero) {
         return (numero == Math.floor(numero)) ? String.valueOf((long) numero) : String.format("%.2f", numero);
     }

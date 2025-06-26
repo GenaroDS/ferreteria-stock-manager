@@ -29,10 +29,12 @@ public class PantallaProductoExistenteController {
     private void initialize() {
         comboUnidades.setDisable(true);
 
+        // Cargar productos ordenados por nombre en el combo
         List<Producto> productosOrdenados = new ArrayList<>(AppData.getProductos());
         productosOrdenados.sort(Comparator.comparing(Producto::getNombre));
         comboProductos.getItems().addAll(productosOrdenados);
 
+        // Mostrar nombre del producto en el combo
         comboProductos.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(Producto item, boolean empty) {
@@ -40,7 +42,6 @@ public class PantallaProductoExistenteController {
                 setText(empty || item == null ? "Seleccionar producto" : item.getNombre());
             }
         });
-
         comboProductos.setCellFactory(list -> new ListCell<>() {
             @Override
             protected void updateItem(Producto item, boolean empty) {
@@ -49,6 +50,7 @@ public class PantallaProductoExistenteController {
             }
         });
 
+        // Cargar unidades cuando se selecciona un producto
         comboProductos.setOnAction(event -> {
             Producto producto = comboProductos.getValue();
             comboUnidades.getItems().clear();
@@ -63,6 +65,7 @@ public class PantallaProductoExistenteController {
             }
         });
 
+        // Acción del botón "Continuar"
         btnContinuar.setOnAction(event -> {
             Producto producto = comboProductos.getValue();
             String unidadSeleccionada = comboUnidades.getValue();
@@ -88,11 +91,13 @@ public class PantallaProductoExistenteController {
                     return;
                 }
 
+                // Si es paquete, ingresar directamente
                 if (unidad.isPaquete()) {
                     inventarioService.agregarStock(producto, cantidadIngresada, unidad.getUnidad());
                     mostrarAlerta("Se ingresaron " + formatearNumero(cantidadIngresada) + " " + unidad.getUnidad() + ".");
                 }
-                    else {
+                // Si es unidad convertible, convertir a unidades mínimas enteras
+                else {
                     double cantidadConvertida = cantidadIngresada / unidad.getFactorConversion();
                     int cantidadEntera = (int) cantidadConvertida;
                     double sobrante = cantidadIngresada - (cantidadEntera * unidad.getFactorConversion());
@@ -114,13 +119,13 @@ public class PantallaProductoExistenteController {
             } catch (NumberFormatException e) {
                 mostrarAlerta("La cantidad debe ser numérica.");
             }
-
-
         });
 
+        // Volver a pantalla anterior
         btnVolver.setOnAction(e -> cambiarPantalla("/vistas/PantallaSeleccionIngreso.fxml"));
     }
 
+    // Cambiar a otra pantalla
     private void cambiarPantalla(String ruta) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource(ruta));
@@ -131,6 +136,7 @@ public class PantallaProductoExistenteController {
         }
     }
 
+    // Mostrar alerta simple
     private void mostrarAlerta(String mensaje) {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle("Aviso");
@@ -139,6 +145,7 @@ public class PantallaProductoExistenteController {
         alerta.showAndWait();
     }
 
+    // Formatea número según tenga o no decimales
     private String formatearNumero(double valor) {
         return (valor % 1 == 0) ? String.format("%.0f", valor) : String.format("%.2f", valor);
     }

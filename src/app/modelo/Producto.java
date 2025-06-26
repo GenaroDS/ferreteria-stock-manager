@@ -9,6 +9,7 @@ public class Producto {
     private List<UnidadDeConversion> unidadesAlternativas;
     private double stockMinimoUnidadMinima;
 
+    // Constructor con ID, nombre y stock mínimo
     public Producto(int id, String nombre, int stockMinimoUnidadMinima) {
         this.id = id;
         this.nombre = nombre;
@@ -16,10 +17,12 @@ public class Producto {
         this.stockMinimoUnidadMinima = stockMinimoUnidadMinima;
     }
 
+    // Agrega una unidad de conversión al producto
     public void agregarUnidadDeConversion(UnidadDeConversion unidad) {
         unidadesAlternativas.add(unidad);
     }
 
+    // Devuelve la unidad de conversión por nombre
     public UnidadDeConversion getUnidad(String nombreUnidad) {
         for (UnidadDeConversion u : unidadesAlternativas) {
             if (u.getUnidad().equals(nombreUnidad)) return u;
@@ -35,6 +38,7 @@ public class Producto {
         this.stockMinimoUnidadMinima = stockMinimoUnidadMinima;
     }
 
+    // Devuelve la unidad marcada como mínima
     public UnidadDeConversion getUnidadMinima() {
         for (UnidadDeConversion u : unidadesAlternativas) {
             if (u.isUnidadMinima()) return u;
@@ -42,6 +46,7 @@ public class Producto {
         return null;
     }
 
+    // Muestra información del producto por consola
     public void mostrarInfo() {
         System.out.println("Producto: " + nombre);
         for (UnidadDeConversion u : unidadesAlternativas) {

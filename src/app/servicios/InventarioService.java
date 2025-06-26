@@ -7,6 +7,7 @@ import app.modelo.UnidadDeConversion;
 
 public class InventarioService {
 
+    // Agrega stock a un producto. Si no existe en inventario, lo crea.
     public void agregarStock(Producto producto, double cantidad, String unidad) {
         Inventario inv = buscarInventario(producto, unidad);
         if (inv != null) {
@@ -17,6 +18,7 @@ public class InventarioService {
         }
     }
 
+    // Descuenta stock si hay cantidad suficiente
     public boolean descontarStock(Producto producto, double cantidad, String unidad) {
         Inventario inv = buscarInventario(producto, unidad);
         if (inv != null && inv.getCantidad() >= cantidad) {
@@ -26,11 +28,13 @@ public class InventarioService {
         return false;
     }
 
+    // Devuelve el stock actual de un producto en una unidad
     public double consultarStock(Producto producto, String unidad) {
         Inventario inv = buscarInventario(producto, unidad);
         return inv != null ? inv.getCantidad() : 0;
     }
 
+    // Arma paquetes si hay stock suficiente en unidad mínima
     public boolean armarPaquete(Producto producto, String unidad, int cantidadPaquetes) {
         UnidadDeConversion u = producto.getUnidad(unidad);
         if (u == null || !u.isPaquete()) return false;
@@ -44,6 +48,7 @@ public class InventarioService {
         return true;
     }
 
+    // Desarma paquetes y convierte a unidades mínimas
     public boolean desarmarPaquete(Producto producto, String unidad, int cantidadPaquetes) {
         UnidadDeConversion u = producto.getUnidad(unidad);
         if (u == null || !u.isPaquete()) return false;
@@ -57,6 +62,7 @@ public class InventarioService {
         return true;
     }
 
+    // Busca un ítem en el inventario por producto y unidad
     private Inventario buscarInventario(Producto producto, String unidad) {
         for (Inventario inv : AppData.getInventario()) {
             if (inv.getProducto().getId() == producto.getId() && inv.getUnidad().equals(unidad)) {

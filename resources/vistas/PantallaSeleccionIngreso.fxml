@@ -3,14 +3,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<!-- Vista para seleccionar tipo de ingreso de producto -->
 <AnchorPane prefHeight="229.0" prefWidth="254.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controladores.PantallaSeleccionIngresoController">
 
+    <!-- Título de la pantalla -->
     <Label layoutX="64.0" layoutY="31.0" style="-fx-font-size: 16px; -fx-text-fill: black;" text="Seleccione acción:" />
 
+    <!-- Botón para ir al ingreso de nuevo producto -->
     <Button fx:id="btnNuevoProducto" layoutX="54.0" layoutY="79.0" prefWidth="150" text="Nuevo producto" />
 
+    <!-- Botón para ir al ingreso de producto existente -->
     <Button fx:id="btnExistente" layoutX="54.0" layoutY="119.0" prefWidth="150" text="Producto existente" />
 
+    <!-- Botón para volver -->
     <Button fx:id="btnVolver" layoutX="95.0" layoutY="174.0" prefHeight="27.0" prefWidth="60" text="Volver" />
 
 </AnchorPane>

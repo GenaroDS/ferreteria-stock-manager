@@ -15,11 +15,17 @@ public class PantallaSeleccionIngresoController {
 
     @FXML
     private void initialize() {
+        // Ir a pantalla de ingreso de nuevo producto
         btnNuevoProducto.setOnAction(e -> cambiarPantalla("/vistas/PantallaIngresoProducto.fxml"));
+
+        // Ir a pantalla de ingreso para producto existente
         btnExistente.setOnAction(e -> cambiarPantalla("/vistas/PantallaProductoExistente.fxml"));
+
+        // Volver al menú principal
         btnVolver.setOnAction(e -> cambiarPantalla("/vistas/PantallaMenuPrincipal.fxml"));
     }
 
+    // Cambia de pantalla cargando el FXML indicado
     private void cambiarPantalla(String ruta) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource(ruta));

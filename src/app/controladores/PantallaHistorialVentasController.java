@@ -30,6 +30,7 @@ public class PantallaHistorialVentasController {
 
     @FXML
     private void initialize() {
+        // Volver al menú principal
         btnVolver.setOnAction(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/PantallaMenuPrincipal.fxml"));
@@ -43,6 +44,7 @@ public class PantallaHistorialVentasController {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
+        // Configurar columna de fecha con formato personalizado
         colFecha.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<>() {
             @Override
             public String toString(String object) {
@@ -54,22 +56,24 @@ public class PantallaHistorialVentasController {
                 return string;
             }
         }));
-
         colFecha.setCellValueFactory(cellData ->
                 javafx.beans.binding.Bindings.createStringBinding(() ->
                         cellData.getValue().getFechaHora().format(formatter))
         );
 
+        // Mostrar nombre del producto en la tabla
         colProducto.setCellValueFactory(cellData ->
                 javafx.beans.binding.Bindings.createStringBinding(() ->
                         cellData.getValue().getProducto().getNombre())
         );
 
+        // Mostrar unidad utilizada en la venta
         colUnidad.setCellValueFactory(cellData ->
                 javafx.beans.binding.Bindings.createStringBinding(() ->
                         cellData.getValue().getUnidad())
         );
 
+        // Mostrar cantidad vendida con formato
         colCantidad.setCellValueFactory(cellData ->
                 javafx.beans.binding.Bindings.createObjectBinding(cellData.getValue()::getCantidad)
         );
@@ -85,28 +89,7 @@ public class PantallaHistorialVentasController {
             }
         }));
 
-        colCantidadMinima.setCellValueFactory(cellData ->
-                javafx.beans.binding.Bindings.createObjectBinding(cellData.getValue()::getCantidadEnUnidadMinima)
-        );
-        colCantidadMinima.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<>() {
-            @Override
-            public String toString(Double value) {
-                return value % 1 == 0 ? String.valueOf(value.intValue()) : String.valueOf(value);
-            }
-
-            @Override
-            public Double fromString(String string) {
-                return Double.valueOf(string);
-            }
-        }));
-
-
-
-
+        // Cargar las ventas en la tabla
         tablaVentas.setItems(FXCollections.observableArrayList(AppData.getVentas()));
     }
-
-
-
-
 }

@@ -3,17 +3,25 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<!-- Vista de la pantalla para armar y desarmar paquetes -->
 <AnchorPane prefHeight="329.0" prefWidth="344.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controladores.PantallaBolsaController">
 
+    <!-- Título de la pantalla -->
     <Label fx:id="lblTitulo" layoutX="95.0" layoutY="14.0" style="-fx-font-size: 16px;" text="Armar / Desarmar Paquete" />
 
+    <!-- ComboBox para seleccionar un producto -->
     <ComboBox fx:id="comboTipo" layoutX="21.0" layoutY="50.0" prefHeight="27.0" prefWidth="303.0" promptText="Seleccionar producto" />
 
+    <!-- Área de texto con resumen del producto -->
     <TextArea fx:id="areaResumen" editable="false" focusTraversable="false" layoutX="21.0" layoutY="90.0" prefHeight="139.0" prefWidth="303.0" wrapText="true" />
 
+    <!-- Botón para armar paquete -->
     <Button fx:id="btnArmar" layoutX="41.0" layoutY="244.0" prefWidth="120" text="Armar" />
+
+    <!-- Botón para desarmar paquete -->
     <Button fx:id="btnDesarmar" layoutX="182.0" layoutY="244.0" prefWidth="120" text="Desarmar" />
 
+    <!-- Botón para volver a la pantalla anterior -->
     <Button fx:id="btnVolver" layoutX="133.0" layoutY="284.0" prefWidth="60" text="Volver" />
 
 </AnchorPane>

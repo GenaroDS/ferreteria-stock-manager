@@ -8,6 +8,7 @@ public class UnidadDeConversion {
     private boolean esPaquete;
     private boolean esUnidadMinima;
 
+    // Constructor con todos los campos
     public UnidadDeConversion(int id, int idProducto, String unidad, double factorConversion, boolean esPaquete, boolean esUnidadMinima) {
         this.id = id;
         this.idProducto = idProducto;
@@ -25,10 +26,12 @@ public class UnidadDeConversion {
         return factorConversion;
     }
 
+    // Indica si es una unidad tipo paquete
     public boolean isPaquete() {
         return esPaquete;
     }
 
+    // Indica si es la unidad mínima del producto
     public boolean isUnidadMinima() {
         return esUnidadMinima;
     }

@@ -4,25 +4,33 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
+<!-- Vista para mostrar el historial de ventas -->
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="app.controladores.PantallaHistorialVentasController">
+
+    <!-- Tabla centrada con scroll para ver ventas -->
     <center>
         <ScrollPane fitToWidth="true" fitToHeight="true" prefHeight="200">
             <TableView fx:id="tablaVentas" prefHeight="400">
                 <columns>
+                    <!-- Columna para la fecha y hora de la venta -->
                     <TableColumn fx:id="colFecha" text="Fecha y Hora" prefWidth="110"/>
+                    <!-- Columna para el nombre del producto -->
                     <TableColumn fx:id="colProducto" text="Producto" prefWidth="100"/>
+                    <!-- Columna para la unidad utilizada -->
                     <TableColumn fx:id="colUnidad" text="Unidad" prefWidth="100"/>
+                    <!-- Columna para la cantidad vendida -->
                     <TableColumn fx:id="colCantidad" text="Cantidad" prefWidth="100"/>
-                    <TableColumn fx:id="colCantidadMinima" text="Cant. en Unidad Mín." prefWidth="150"/>
                 </columns>
             </TableView>
         </ScrollPane>
     </center>
+
+    <!-- Botón para volver abajo, centrado -->
     <bottom>
         <HBox alignment="CENTER" spacing="10">
             <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
             <Button fx:id="btnVolver" text="Volver"/>
         </HBox>
     </bottom>
-</BorderPane>
 
+</BorderPane>

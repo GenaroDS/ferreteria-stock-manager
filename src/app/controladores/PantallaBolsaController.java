@@ -24,12 +24,13 @@ public class PantallaBolsaController {
 
     @FXML
     private void initialize() {
+        // Cargar productos que tienen unidad tipo paquete en el combo, ordenados por nombre
         AppData.getProductos().stream()
                 .filter(p -> p.getUnidadesAlternativas().stream().anyMatch(UnidadDeConversion::isPaquete))
                 .sorted(Comparator.comparing(Producto::getNombre))
                 .forEach(comboTipo.getItems()::add);
 
-
+        // Mostrar nombre del producto en la lista desplegable
         comboTipo.setCellFactory(list -> new ListCell<>() {
             @Override
             protected void updateItem(Producto item, boolean empty) {
@@ -38,6 +39,7 @@ public class PantallaBolsaController {
             }
         });
 
+        // Mostrar nombre del producto seleccionado (o texto por defecto)
         comboTipo.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(Producto item, boolean empty) {
@@ -46,8 +48,10 @@ public class PantallaBolsaController {
             }
         });
 
+        // Al seleccionar un producto, actualizar el resumen
         comboTipo.setOnAction(event -> actualizarResumen());
 
+        // Al hacer clic en "Armar", crear un paquete del producto seleccionado
         btnArmar.setOnAction(event -> {
             Producto p = comboTipo.getValue();
             if (p == null) return;
@@ -60,6 +64,7 @@ public class PantallaBolsaController {
             actualizarResumen();
         });
 
+        // Al hacer clic en "Desarmar", deshacer un paquete del producto seleccionado
         btnDesarmar.setOnAction(event -> {
             Producto p = comboTipo.getValue();
             if (p == null) return;
@@ -72,6 +77,7 @@ public class PantallaBolsaController {
             actualizarResumen();
         });
 
+        // Volver a la pantalla principal
         btnVolver.setOnAction(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/PantallaMenuPrincipal.fxml"));
@@ -84,6 +90,7 @@ public class PantallaBolsaController {
         });
     }
 
+    // Generar y mostrar el resumen del producto seleccionado
     private void actualizarResumen() {
         Producto p = comboTipo.getValue();
         if (p == null) {

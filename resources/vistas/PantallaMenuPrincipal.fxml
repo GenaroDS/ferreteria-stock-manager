@@ -3,14 +3,31 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="315.0" prefWidth="292.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controladores.PantallaPrincipalController">
+<!-- Vista de la pantalla principal del sistema -->
 
-    <Button fx:id="btnVolver" layoutX="116.0" layoutY="264.0" prefWidth="60" text="Salir" />
+<AnchorPane prefHeight="344.0" prefWidth="292.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controladores.PantallaPrincipalController">
+
+    <!-- Botón para cerrar la aplicación -->
+    <Button fx:id="btnVolver" layoutX="116.0" layoutY="293.0" prefWidth="60" text="Salir" />
+
+    <!-- Título de la pantalla -->
     <Label layoutX="72.0" layoutY="18.0" style="-fx-font-size: 16px; -fx-text-fill: black;" text="Seleccione una tarea" />
 
-    <Button fx:id="btnVenta" layoutX="46.0" layoutY="140.0" prefWidth="200" text="Realizar Venta" />
-    <Button fx:id="btnConsultarStock" layoutX="46.0" layoutY="99.0" prefWidth="200" text="Consultar Stock" />
+    <!-- Botón para ir a pantalla de ventas -->
+    <Button fx:id="btnVenta" layoutX="46.0" layoutY="173.0" prefWidth="200" text="Realizar Venta" />
+
+    <!-- Botón para ir a pantalla de ventas -->
+    <Button fx:id="btnModifcarAlertas" layoutX="46.0" layoutY="135.0" prefWidth="200" text="Modificar Alertas" />
+
+    <!-- Botón para ir a pantalla de consulta de stock -->
+    <Button fx:id="btnConsultarStock" layoutX="46.0" layoutY="98.0" prefWidth="200" text="Consultar Stock" />
+
+    <!-- Botón para ir a pantalla de ingreso de productos -->
     <Button fx:id="btnIngreso" layoutX="46.0" layoutY="59.0" prefWidth="200" text="Ingreso de Producto" />
-    <Button fx:id="btnBolsa" layoutX="46.0" layoutY="181.0" prefWidth="200" text="Armar/Desarmar Paquete" />
-    <Button fx:id="btnHistorialVentas" layoutX="46.0" layoutY="223.0" prefWidth="200" text="Historial de Ventas" />
+
+    <!-- Botón para ir a pantalla de armado/desarme de paquetes -->
+    <Button fx:id="btnBolsa" layoutX="46.0" layoutY="213.0" prefWidth="200" text="Armar/Desarmar Paquete" />
+
+    <!-- Botón para ir al historial de ventas -->
+    <Button fx:id="btnHistorialVentas" layoutX="46.0" layoutY="252.0" prefWidth="200" text="Historial de Ventas" />
 </AnchorPane>

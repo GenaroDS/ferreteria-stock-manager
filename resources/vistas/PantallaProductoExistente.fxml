@@ -3,18 +3,25 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<!-- Vista para ingreso de stock de un producto existente -->
 <AnchorPane prefHeight="300" prefWidth="246.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controladores.PantallaProductoExistenteController">
 
+    <!-- Selección de producto -->
     <Label layoutX="59.0" layoutY="16.0" text="Seleccionar producto:" />
     <ComboBox fx:id="comboProductos" layoutX="37.0" layoutY="45.0" prefHeight="27.0" prefWidth="169.0" />
 
+    <!-- Selección de unidad -->
     <Label layoutX="99.0" layoutY="82.0" text="Unidad:" />
     <ComboBox fx:id="comboUnidades" layoutX="37.0" layoutY="110.0" prefHeight="27.0" prefWidth="169.0" />
 
+    <!-- Ingreso de cantidad -->
     <Label layoutX="95.0" layoutY="150.0" text="Cantidad:" />
     <TextField fx:id="campoCantidad" layoutX="37.0" layoutY="175.0" prefHeight="27.0" prefWidth="169.0" />
 
+    <!-- Botón para confirmar ingreso -->
     <Button fx:id="btnContinuar" layoutX="63.0" layoutY="215.0" prefWidth="120" text="Ingresar" />
+
+    <!-- Botón para volver -->
     <Button fx:id="btnVolver" layoutX="93.0" layoutY="259.0" prefHeight="27.0" prefWidth="60.0" text="Volver" />
 
 </AnchorPane>

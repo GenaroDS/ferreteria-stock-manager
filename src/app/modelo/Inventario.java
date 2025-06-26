@@ -6,6 +6,7 @@ public class Inventario {
     private String unidad;
     private double cantidad;
 
+    // Constructor con todos los campos
     public Inventario(int id, Producto producto, String unidad, double cantidad) {
         this.id = id;
         this.producto = producto;
@@ -17,6 +18,7 @@ public class Inventario {
         return id;
     }
 
+    // Devuelve la cantidad convertida a unidades mínimas
     public double getCantidadEnUnidadMinima() {
         UnidadDeConversion unidadActual = producto.getUnidad(unidad);
         if (unidadActual == null) {
@@ -24,8 +26,6 @@ public class Inventario {
         }
         return cantidad * unidadActual.getFactorConversion();
     }
-
-
 
     public Producto getProducto() {
         return producto;
@@ -39,10 +39,12 @@ public class Inventario {
         return cantidad;
     }
 
+    // Suma o resta cantidad
     public void modificarCantidad(double delta) {
         this.cantidad += delta;
     }
 
+    // Reemplaza la cantidad directamente
     public void setCantidad(double cantidad) {
         this.cantidad = cantidad;
     }
