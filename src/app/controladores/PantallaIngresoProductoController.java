@@ -59,7 +59,8 @@ public class PantallaIngresoProductoController {
             campoUnidadesPorPaquete.setDisable(true);
             campoNombrePaquete.setDisable(true);
         });
-
+        campoUnidadConversion.setDisable(true);
+        campoFactor.setDisable(true);
         radioSi.setToggleGroup(grupo);
         radioNo.setToggleGroup(grupo);
 
@@ -93,7 +94,6 @@ public class PantallaIngresoProductoController {
             boolean esEmpaquetable = radioSi.isSelected();
             boolean tieneConversion = radioConvSi.isSelected();
 
-            // Validación de campos obligatorios
             if (nombre.isEmpty() || unidadMinima.isEmpty() || cantidadStr.isEmpty()) {
                 mostrarAlerta("Completá los datos básicos del producto.");
                 return;
@@ -123,17 +123,27 @@ public class PantallaIngresoProductoController {
                     return;
                 }
 
-                double factor = esEmpaquetable
-                        ? parsearNumero(unidadesPorPaqueteStr)
-                        : (tieneConversion ? parsearNumero(factorStr) : 0);
+                double factorConversion = tieneConversion ? parsearNumero(factorStr) : 0;
+                double factorPaquete = esEmpaquetable ? parsearNumero(unidadesPorPaqueteStr) : 0;
 
-                if ((tieneConversion || esEmpaquetable) && factor <= 0) {
-                    mostrarAlerta("El factor de conversión debe ser mayor a cero.");
+                if ((tieneConversion && factorConversion <= 0) || (esEmpaquetable && factorPaquete <= 0)) {
+                    mostrarAlerta("Los factores de conversión deben ser mayores a cero.");
                     return;
                 }
 
                 ProductoService productoService = new ProductoService();
-                productoService.crearProducto(nombre, stockMinimo, unidadMinima, unidadConv, factor, esEmpaquetable, tieneConversion, nombrePaquete, (int) cantidadMinima);
+                productoService.crearProducto(
+                        nombre,
+                        stockMinimo,
+                        unidadMinima,
+                        unidadConv,
+                        factorConversion,
+                        esEmpaquetable,
+                        tieneConversion,
+                        nombrePaquete,
+                        (int) cantidadMinima,
+                        factorPaquete
+                );
 
                 mostrarAlerta("Producto ingresado correctamente.");
                 limpiarCampos();
@@ -141,6 +151,7 @@ public class PantallaIngresoProductoController {
                 mostrarAlerta("Los campos de cantidad y factor deben ser numéricos.");
             }
         });
+
     }
 
     // Parsea un número desde texto (permite "," como decimal)
