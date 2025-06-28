@@ -1,5 +1,6 @@
 package app.controladores;
 
+import app.dao.VentaDAO;
 import app.modelo.AppData;
 import app.modelo.Venta;
 import javafx.collections.FXCollections;
@@ -11,9 +12,9 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.StringConverter;
@@ -90,6 +91,13 @@ public class PantallaHistorialVentasController {
         }));
 
         // Cargar las ventas en la tabla
-        tablaVentas.setItems(FXCollections.observableArrayList(AppData.getVentas()));
+        try {
+            VentaDAO dao = new VentaDAO();
+            List<Venta> ventas = dao.obtenerTodas();
+            tablaVentas.setItems(FXCollections.observableArrayList(ventas));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

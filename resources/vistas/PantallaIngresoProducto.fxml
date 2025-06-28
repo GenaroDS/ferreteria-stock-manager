@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <!-- Vista para ingreso de un nuevo producto -->
+
 <AnchorPane prefHeight="475.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controladores.PantallaIngresoProductoController">
 
     <!-- Título -->
@@ -27,8 +28,8 @@
 
     <!-- Radio para indicar si tiene unidad de conversión -->
     <Label layoutX="20.0" layoutY="186.0" text="¿Tiene unidad de conversión?" />
-    <RadioButton fx:id="radioConvSi" layoutX="200.0" layoutY="185.0" selected="true" text="Sí" />
-    <RadioButton fx:id="radioConvNo" layoutX="260.0" layoutY="185.0" text="No" />
+    <RadioButton fx:id="radioConvSi" layoutX="200.0" layoutY="185.0" text="Sí" />
+    <RadioButton fx:id="radioConvNo" layoutX="260.0" layoutY="185.0" selected="true"  text="No" />
 
     <!-- Unidad de conversión -->
     <Label layoutX="20.0" layoutY="218.0" text="Unidad de conversión:" />
@@ -37,7 +38,7 @@
     <!-- Factor de conversión -->
     <Label layoutX="20.0" layoutY="254.0" text="Factor de conversión:" />
     <TextField fx:id="campoFactor" layoutX="160.0" layoutY="249.0" prefHeight="27.0" prefWidth="50.0" />
-    <Label fx:id="labelFactorPreview" layoutX="220.0" layoutY="211.0" text="" />
+    <Label fx:id="labelFactorPreview" layoutX="220.0" layoutY="253.0" text="" />
 
     <!-- Radio para indicar si es empaquetable -->
     <Label layoutX="20.0" layoutY="288.0" text="¿Es empaquetable?" />

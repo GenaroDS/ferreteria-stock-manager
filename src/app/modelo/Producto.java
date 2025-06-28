@@ -37,6 +37,10 @@ public class Producto {
     public void setStockMinimoUnidadMinima(double stockMinimoUnidadMinima) {
         this.stockMinimoUnidadMinima = stockMinimoUnidadMinima;
     }
+    public void setId(int id) {
+        this.id = id;
+    }
+
 
     // Devuelve la unidad marcada como mínima
     public UnidadDeConversion getUnidadMinima() {

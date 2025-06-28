@@ -1,6 +1,6 @@
 package app.controladores;
 
-import app.modelo.AppData;
+import app.dao.ProductoDAO;
 import app.modelo.Producto;
 import app.modelo.UnidadDeConversion;
 import app.servicios.InventarioService;
@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.util.Comparator;
+import java.util.List;
 
 public class PantallaBolsaController {
 
@@ -24,13 +25,20 @@ public class PantallaBolsaController {
 
     @FXML
     private void initialize() {
-        // Cargar productos que tienen unidad tipo paquete en el combo, ordenados por nombre
-        AppData.getProductos().stream()
-                .filter(p -> p.getUnidadesAlternativas().stream().anyMatch(UnidadDeConversion::isPaquete))
-                .sorted(Comparator.comparing(Producto::getNombre))
-                .forEach(comboTipo.getItems()::add);
+        try {
+            ProductoDAO dao = new ProductoDAO();
+            List<Producto> productos = dao.obtenerTodos();
 
-        // Mostrar nombre del producto en la lista desplegable
+            productos.stream()
+                    .filter(p -> p.getUnidadesAlternativas().stream().anyMatch(UnidadDeConversion::isPaquete))
+                    .sorted(Comparator.comparing(Producto::getNombre))
+                    .forEach(comboTipo.getItems()::add);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlerta("Error al cargar productos con paquetes.");
+        }
+
         comboTipo.setCellFactory(list -> new ListCell<>() {
             @Override
             protected void updateItem(Producto item, boolean empty) {
@@ -39,7 +47,6 @@ public class PantallaBolsaController {
             }
         });
 
-        // Mostrar nombre del producto seleccionado (o texto por defecto)
         comboTipo.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(Producto item, boolean empty) {
@@ -48,13 +55,12 @@ public class PantallaBolsaController {
             }
         });
 
-        // Al seleccionar un producto, actualizar el resumen
         comboTipo.setOnAction(event -> actualizarResumen());
 
-        // Al hacer clic en "Armar", crear un paquete del producto seleccionado
         btnArmar.setOnAction(event -> {
             Producto p = comboTipo.getValue();
             if (p == null) return;
+
             InventarioService inventarioService = new InventarioService();
             for (UnidadDeConversion unidad : p.getUnidadesAlternativas()) {
                 if (unidad.isPaquete()) {
@@ -64,10 +70,10 @@ public class PantallaBolsaController {
             actualizarResumen();
         });
 
-        // Al hacer clic en "Desarmar", deshacer un paquete del producto seleccionado
         btnDesarmar.setOnAction(event -> {
             Producto p = comboTipo.getValue();
             if (p == null) return;
+
             InventarioService inventarioService = new InventarioService();
             for (UnidadDeConversion unidad : p.getUnidadesAlternativas()) {
                 if (unidad.isPaquete()) {
@@ -77,7 +83,6 @@ public class PantallaBolsaController {
             actualizarResumen();
         });
 
-        // Volver a la pantalla principal
         btnVolver.setOnAction(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/PantallaMenuPrincipal.fxml"));
@@ -90,7 +95,6 @@ public class PantallaBolsaController {
         });
     }
 
-    // Generar y mostrar el resumen del producto seleccionado
     private void actualizarResumen() {
         Producto p = comboTipo.getValue();
         if (p == null) {
@@ -99,5 +103,13 @@ public class PantallaBolsaController {
         }
         ProductoService productoService = new ProductoService();
         areaResumen.setText(productoService.generarResumenBolsa(p));
+    }
+
+    private void mostrarAlerta(String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("Error");
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
     }
 }

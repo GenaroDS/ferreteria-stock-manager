@@ -12,8 +12,12 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/vistas/PantallaMenuPrincipal.fxml"));
         Scene scene = new Scene(root); // ajustá el tamaño si querés
-        AppData.inicializarDatos();
+        //AppData.inicializarDatos();
         stage.setScene(scene);
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        System.out.println("Conector MySQL cargado correctamente.");
+
 
         stage.setTitle("Ferretería - Menú Principal");
         stage.setResizable(false);

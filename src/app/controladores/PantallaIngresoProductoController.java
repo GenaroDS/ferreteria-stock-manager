@@ -1,10 +1,6 @@
 package app.controladores;
 
-import app.modelo.AppData;
-import app.modelo.Producto;
 import app.servicios.ProductoService;
-import app.modelo.UnidadDeConversion;
-import app.modelo.Inventario;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.fxml.FXMLLoader;
@@ -181,9 +177,13 @@ public class PantallaIngresoProductoController {
         campoUnidadConversion.clear();
         campoFactor.clear();
         campoUnidadesPorPaquete.clear();
+        campoNombrePaquete.clear();
         radioSi.setSelected(false);
         radioNo.setSelected(true);
         campoUnidadesPorPaquete.setDisable(true);
+        campoNombrePaquete.setDisable(true);
         campoStockMinimo.clear();
+        labelFactorPreview.setText("");
     }
+
 }

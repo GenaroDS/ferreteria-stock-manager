@@ -1,11 +1,8 @@
 package app.controladores;
 
-import app.modelo.AppData;
+import app.dao.ProductoDAO;
 import app.modelo.Producto;
-import app.modelo.UnidadDeConversion;
-import app.modelo.Inventario;
 import app.servicios.ProductoService;
-import app.servicios.InventarioService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -26,14 +22,22 @@ public class PantallaConsultarStockController {
 
     @FXML
     private void initialize() {
-        // Cargar productos ordenados por nombre en el combo
-        if (!AppData.getProductos().isEmpty()) {
-            List<Producto> productosOrdenados = new ArrayList<>(AppData.getProductos());
-            productosOrdenados.sort(Comparator.comparing(Producto::getNombre));
-            comboProductos.getItems().addAll(productosOrdenados);
-        } else {
-            // Si no hay productos, deshabilitar controles
-            comboProductos.setPromptText("Sin productos cargados");
+        try {
+            // Cargar productos desde la base de datos
+            ProductoDAO dao = new ProductoDAO();
+            List<Producto> productos = dao.obtenerTodos();
+
+            if (!productos.isEmpty()) {
+                productos.sort(Comparator.comparing(Producto::getNombre));
+                comboProductos.getItems().addAll(productos);
+            } else {
+                comboProductos.setPromptText("Sin productos cargados");
+                comboProductos.setDisable(true);
+                btnConsultar.setDisable(true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            comboProductos.setPromptText("Error al cargar");
             comboProductos.setDisable(true);
             btnConsultar.setDisable(true);
         }
@@ -64,7 +68,7 @@ public class PantallaConsultarStockController {
                 String informe = productoService.generarInformeStock(seleccionado);
                 String stockMinimo = "Stock mínimo de alerta: " + formatearNumero(seleccionado.getStockMinimoUnidadMinima()) + " " +
                         seleccionado.getUnidadMinima().getUnidad();
-                areaResultado.setText(informe +  stockMinimo);
+                areaResultado.setText(informe + stockMinimo);
             } else {
                 areaResultado.setText("Seleccioná un producto.");
             }
