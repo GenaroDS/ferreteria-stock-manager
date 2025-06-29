@@ -1,5 +1,6 @@
 package app.controladores;
 
+// Importaciones necesarias para la interfaz gráfica y la lógica de negocio
 import app.dao.ProductoDAO;
 import app.modelo.Producto;
 import app.modelo.UnidadDeConversion;
@@ -19,6 +20,7 @@ import java.util.List;
 
 public class PantallaVentaController {
 
+    // Declaración de elementos de la interfaz gráfica
     @FXML private ComboBox<Producto> comboProductos;
     @FXML private TextField campoCantidad;
     @FXML private Button btnVender;
@@ -26,10 +28,13 @@ public class PantallaVentaController {
     @FXML private TextArea areaResultado;
     @FXML private ComboBox<String> comboUnidades;
 
+    // Inicialización del controlador
     @FXML
     private void initialize() {
+        // Deshabilitar combo de unidades inicialmente
         comboUnidades.setDisable(true);
 
+        // Cargar productos desde la base de datos
         try {
             ProductoDAO dao = new ProductoDAO();
             List<Producto> productos = dao.obtenerTodos();
@@ -40,6 +45,7 @@ public class PantallaVentaController {
             mostrarAlerta("Error al cargar productos.");
         }
 
+        // Configurar texto del botón del ComboBox de productos
         comboProductos.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(Producto item, boolean empty) {
@@ -48,6 +54,7 @@ public class PantallaVentaController {
             }
         });
 
+        // Configurar celdas del ComboBox de productos
         comboProductos.setCellFactory(list -> new ListCell<>() {
             @Override
             protected void updateItem(Producto item, boolean empty) {
@@ -56,11 +63,13 @@ public class PantallaVentaController {
             }
         });
 
+        // Manejar selección de producto en ComboBox
         comboProductos.setOnAction(event -> {
             Producto producto = comboProductos.getValue();
             comboUnidades.getItems().clear();
             campoCantidad.clear();
 
+            // Cargar unidades alternativas si existen
             if (producto != null && !producto.getUnidadesAlternativas().isEmpty()) {
                 producto.getUnidadesAlternativas().forEach(u -> comboUnidades.getItems().add(u.getUnidad()));
                 comboUnidades.setDisable(false);
@@ -70,8 +79,10 @@ public class PantallaVentaController {
             }
         });
 
+        // Configurar acción del botón Volver
         btnVolver.setOnAction(event -> {
             try {
+                // Cargar vista del menú principal
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/vistas/PantallaMenuPrincipal.fxml"));
                 Parent root = loader.load();
                 Stage stage = (Stage) btnVolver.getScene().getWindow();
@@ -81,32 +92,38 @@ public class PantallaVentaController {
             }
         });
 
+        // Configurar acción del botón Vender
         btnVender.setOnAction(event -> {
             Producto producto = comboProductos.getValue();
             String unidadSeleccionada = comboUnidades.getValue();
             String cantidadStr = campoCantidad.getText().trim().replace(",", ".");
 
+            // Validar campos requeridos
             if (producto == null || unidadSeleccionada == null || cantidadStr.isEmpty()) {
                 mostrarAlerta("Completá todos los campos.");
                 return;
             }
 
             try {
+                // Validar cantidad ingresada
                 double cantidadIngresada = Double.parseDouble(cantidadStr);
                 if (cantidadIngresada <= 0) {
                     mostrarAlerta("La cantidad debe ser mayor a cero.");
                     return;
                 }
 
+                // Obtener unidades de conversión
                 UnidadDeConversion unidad = producto.getUnidad(unidadSeleccionada);
                 UnidadDeConversion unidadMinima = producto.getUnidadMinima();
                 InventarioService inventarioService = new InventarioService();
 
+                // Validar unidades
                 if (unidad == null || unidadMinima == null) {
                     mostrarAlerta("Unidad no válida.");
                     return;
                 }
 
+                // Procesar venta de paquetes
                 if (unidad.isPaquete()) {
                     int cantidadPaquetes = (int) cantidadIngresada;
                     boolean exito = inventarioService.descontarStock(producto, cantidadPaquetes, unidadSeleccionada);
@@ -117,12 +134,14 @@ public class PantallaVentaController {
                         mostrarAlerta("No hay suficiente stock de paquetes.");
                     }
 
+                    // Procesar venta de unidades no paquetes
                 } else {
                     double cantidadConvertida = cantidadIngresada / unidad.getFactorConversion();
                     int cantidadEntera = (int) cantidadConvertida;
                     double sobrante = cantidadConvertida - cantidadEntera;
                     String unidadMin = unidadMinima.getUnidad();
 
+                    // Validar cantidad mínima
                     if (cantidadEntera == 0) {
                         mostrarAlerta("No se puede realizar la venta porque la cantidad ingresada (" +
                                 formatearNumero(cantidadIngresada) + " " + unidad.getUnidad() +
@@ -131,11 +150,13 @@ public class PantallaVentaController {
                         return;
                     }
 
+                    // Descontar stock y registrar venta
                     boolean exito = inventarioService.descontarStock(producto, cantidadEntera, unidadMin);
                     if (exito) {
                         double cantidadRealVendida = cantidadEntera * unidad.getFactorConversion();
                         new VentaService().registrarVenta(producto, unidadSeleccionada, cantidadRealVendida);
 
+                        // Mostrar mensaje de venta con sobrante si aplica
                         if (sobrante > 0) {
                             double sobranteEnUnidadOriginal = sobrante * unidad.getFactorConversion();
                             mostrarAlerta("Se vendieron " + cantidadEntera + " " + unidadMin +
@@ -146,6 +167,7 @@ public class PantallaVentaController {
                             mostrarAlerta("Venta realizada. Se descontaron " + formatearNumero(cantidadEntera) + " " + unidadMin + ".");
                         }
 
+                        // Verificar stock bajo
                         double stockPostVenta = inventarioService.consultarStock(producto, unidadMin);
                         if (stockPostVenta < producto.getStockMinimoUnidadMinima()) {
                             mostrarWarningStockBajo(producto, stockPostVenta);
@@ -153,6 +175,7 @@ public class PantallaVentaController {
                     }
                 }
 
+                // Limpiar campo de cantidad
                 campoCantidad.clear();
 
             } catch (NumberFormatException e) {
@@ -161,6 +184,7 @@ public class PantallaVentaController {
         });
     }
 
+    // Mostrar advertencia de stock bajo
     private void mostrarWarningStockBajo(Producto producto, double stockActual) {
         Alert alerta = new Alert(Alert.AlertType.WARNING);
         alerta.setTitle("Stock Bajo");
@@ -172,6 +196,7 @@ public class PantallaVentaController {
         alerta.showAndWait();
     }
 
+    // Mostrar alerta informativa
     private void mostrarAlerta(String mensaje) {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle("Aviso");
@@ -194,15 +219,15 @@ public class PantallaVentaController {
         alerta.showAndWait();
     }
 
+    // Formatear número según si es entero o decimal
     private String formatearNumero(double numero) {
         return Math.abs(numero - Math.round(numero)) < 0.00001
                 ? String.valueOf((int) Math.round(numero))
                 : formatearConDecimales(numero, 2);
     }
 
-
+    // Formatear número con decimales específicos
     private String formatearConDecimales(double numero, int decimales) {
         return String.format("%." + decimales + "f", numero);
     }
-
 }
