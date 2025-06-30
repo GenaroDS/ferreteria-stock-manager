@@ -11,39 +11,51 @@ import java.util.List;
 
 public class ProductoService {
 
+    // Método para crear un producto con unidad mínima, conversión opcional y paquete opcional
     // Crea un producto con unidad mínima, conversión opcional y paquete opcional
-    public void crearProducto(String nombre, int stockUnidadMinima, String unidadMinima, String unidadConv, double factorConversion, boolean esPaquete, boolean tieneConversion, String nombrePaquete, int cantidadMinima, double factorPaquete) {
+    public void crearProducto(String nombre, int stockUnidadMinima, String unidadMinima, String unidadConv,
+                              double factorConversion, boolean esPaquete, boolean tieneConversion,
+                              String nombrePaquete, int cantidadMinima, double factorPaquete) {
         try {
+            // Instanciar DAOs
             ProductoDAO productoDAO = new ProductoDAO();
             UnidadDAO unidadDAO = new UnidadDAO();
             InventarioDAO inventarioDAO = new InventarioDAO();
 
+            // Crear e insertar producto
             Producto nuevo = new Producto(0, nombre, stockUnidadMinima);
             int idProducto = productoDAO.insertarProducto(nuevo);
             nuevo.setId(idProducto);
 
+            // Insertar unidad mínima
             UnidadDeConversion unidadMin = new UnidadDeConversion(0, idProducto, unidadMinima, 1, false, true);
             unidadDAO.insertarUnidad(unidadMin);
             nuevo.agregarUnidadDeConversion(unidadMin);
 
             int unidadId = 1;
 
+            // Insertar unidad de conversión si aplica
             if (tieneConversion) {
-                UnidadDeConversion unidadConvAlt = new UnidadDeConversion(unidadId++, idProducto, unidadConv, factorConversion, false, false);
+                UnidadDeConversion unidadConvAlt = new UnidadDeConversion(unidadId++, idProducto, unidadConv,
+                        factorConversion, false, false);
                 unidadDAO.insertarUnidad(unidadConvAlt);
                 nuevo.agregarUnidadDeConversion(unidadConvAlt);
             }
 
+            // Insertar unidad de paquete si aplica
             if (esPaquete) {
-                UnidadDeConversion unidadPaquete = new UnidadDeConversion(unidadId, idProducto, nombrePaquete, factorPaquete, true, false);
+                UnidadDeConversion unidadPaquete = new UnidadDeConversion(unidadId, idProducto, nombrePaquete,
+                        factorPaquete, true, false);
                 unidadDAO.insertarUnidad(unidadPaquete);
                 nuevo.agregarUnidadDeConversion(unidadPaquete);
             }
 
+            // Insertar inventario
             Inventario inventario = new Inventario(0, nuevo, unidadMinima, cantidadMinima);
             inventarioDAO.insertar(inventario);
 
         } catch (Exception e) {
+            // Imprimir error
             e.printStackTrace();
         }
     }

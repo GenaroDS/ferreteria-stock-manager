@@ -94,6 +94,7 @@ public class PantallaIngresoProductoController {
             boolean esEmpaquetable = radioSi.isSelected();
             boolean tieneConversion = radioConvSi.isSelected();
 
+            //Validaciones de campos
             if (nombre.isEmpty() || unidadMinima.isEmpty() || cantidadStr.isEmpty()) {
                 mostrarAlerta("Completá los datos básicos del producto.");
                 return;
@@ -130,7 +131,7 @@ public class PantallaIngresoProductoController {
                     mostrarAlerta("Los factores de conversión deben ser mayores a cero.");
                     return;
                 }
-
+                //Creación del producto service
                 ProductoService productoService = new ProductoService();
                 productoService.crearProducto(
                         nombre,
